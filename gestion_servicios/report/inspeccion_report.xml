@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_inspeccion" model="report.paperformat">
+        <field name="name">Inspección de servicio A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_inspeccion" model="ir.actions.report">
+        <field name="name">Reporte de inspección</field>
+        <field name="model">servicio.inspeccion</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_servicios.report_inspeccion_document</field>
+        <field name="report_file">gestion_servicios.report_inspeccion_document</field>
+        <field name="print_report_name">'Inspeccion-%s' % (object.name or 'reporte')</field>
+        <field name="paperformat_id" ref="paperformat_inspeccion"/>
+    </record>
+
+    <!-- Archivos adjuntos: las imágenes se ajustan al ancho de la página -->
+    <template id="report_inspeccion_attachments">
+        <t t-foreach="attachments" t-as="att">
+            <t t-set="img_src" t-value="image_uri(att) if is_image(att) else ''"/>
+            <t t-if="img_src">
+                <div class="att-box">
+                    <img class="att-img" t-att-src="img_src"/>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="att-file">
+                    Archivo adjunto: <strong><t t-esc="att.name"/></strong>
+                    <span> (<t t-esc="att.mimetype or 'archivo'"/>)</span>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Tabla de preguntas -->
+    <template id="report_inspeccion_items">
+        <table class="insp-table">
+            <thead>
+                <tr>
+                    <th style="width:42%;">Pregunta</th>
+                    <th style="width:28%;">Respuesta</th>
+                    <th>Nota</th>
+                </tr>
+            </thead>
+            <t t-foreach="items" t-as="item">
+                <tbody>
+                    <tr>
+                        <td><t t-esc="item.question_short"/></td>
+                        <td>
+                            <t t-if="item.answer_type == 'rating'">
+                                <span t-field="item.rating"/>
+                            </t>
+                            <t t-else="">
+                                <span t-field="item.answer"/>
+                            </t>
+                        </td>
+                        <td><span t-field="item.note"/></td>
+                    </tr>
+                    <tr t-if="item.attachment_ids">
+                        <td colspan="3">
+                            <t t-call="gestion_servicios.report_inspeccion_attachments">
+                                <t t-set="attachments" t-value="item.attachment_ids"/>
+                            </t>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </table>
+    </template>
+
+    <!-- Cuadro de texto + nota + archivos (secciones 6, 7 y 8) -->
+    <template id="report_inspeccion_textblock">
+        <div class="insp-q"><t t-esc="question"/></div>
+        <div class="insp-box" style="white-space: pre-wrap;"><t t-out="text_value"/></div>
+        <div t-if="note_value" class="insp-note">
+            <strong>Nota:</strong> <span style="white-space: pre-wrap;"><t t-out="note_value"/></span>
+        </div>
+        <t t-if="attach_value">
+            <t t-call="gestion_servicios.report_inspeccion_attachments">
+                <t t-set="attachments" t-value="attach_value"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_inspeccion_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id">
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                <div class="page insp-report">
+                    <style>
+                        .insp-report { font-size: 11px; color: #222; }
+                        .insp-title { color: #4a42c9; font-size: 22px; font-weight: bold; margin-bottom: 2px; }
+                        .insp-h { background: #4a42c9; color: #fff; padding: 6px 10px; border-radius: 4px;
+                                  font-size: 14px; margin: 16px 0 8px 0; page-break-after: avoid; }
+                        .insp-sub { border-left: 4px solid #4a42c9; padding-left: 8px; font-size: 12px;
+                                    font-weight: bold; margin: 12px 0 4px 0; page-break-after: avoid; }
+                        .insp-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+                        .insp-table th, .insp-table td { border: 1px solid #ccc; padding: 4px 6px; vertical-align: top; }
+                        .insp-table th { background: #eceafb; text-align: left; }
+                        .insp-table tr { page-break-inside: avoid; }
+                        .insp-kv { width: 100%; border-collapse: collapse; }
+                        .insp-kv th { width: 30%; background: #eceafb; border: 1px solid #ccc;
+                                      padding: 4px 6px; text-align: left; }
+                        .insp-kv td { border: 1px solid #ccc; padding: 4px 6px; }
+                        .insp-q { font-weight: bold; margin-bottom: 4px; }
+                        .insp-box { border: 1px solid #ccc; border-radius: 4px; padding: 8px; min-height: 40px; }
+                        .insp-note { margin-top: 6px; }
+                        .att-box { margin: 6px 0; text-align: center; }
+                        .att-img { max-width: 50%; max-height: 115mm; height: auto; width: auto; }
+                        .att-box img { display: inline-block; }
+                        .att-file { font-size: 10px; color: #555; margin: 4px 0; }
+                        .sig-box { text-align: center; }
+                        .sig-img { max-width: 100%; max-height: 35mm; }
+                    </style>
+
+                    <div class="insp-title">Reporte de inspección de servicio</div>
+                    <div>
+                        Número de reporte: <strong><span t-field="o.name"/></strong>
+                    </div>
+
+                    <!-- 1 -->
+                    <div class="insp-h">1. Detalle del servicio</div>
+                    <table class="insp-kv">
+                        <tr><th>Tipo de reporte</th><td><span t-field="o.report_type"/></td></tr>
+                        <tr><th>Cliente</th><td><span t-field="o.customer_id"/></td></tr>
+                        <tr><th>Ubicación</th><td><span t-field="o.location"/></td></tr>
+                        <tr><th>Fecha de realización</th><td><span t-field="o.inspection_date"/></td></tr>
+                        <tr><th>Nombre del técnico</th><td><span t-field="o.technician_id"/></td></tr>
+                        <tr><th>Representante del cliente</th><td><span t-field="o.customer_representative"/></td></tr>
+                    </table>
+
+                    <!-- 2 -->
+                    <div class="insp-h">2. Tipo de sistemas</div>
+                    <table class="insp-kv">
+                        <tr><th>Tipo de sistema</th><td><span t-field="o.system_type"/></td></tr>
+                    </table>
+
+                    <!-- 3 -->
+                    <div class="insp-h">3. Inspección a sistemas de alarmas y detección de incendios</div>
+                    <t t-foreach="grouped(o, 'alarm_inspection')" t-as="grp">
+                        <div class="insp-sub"><t t-esc="grp[0]"/></div>
+                        <t t-call="gestion_servicios.report_inspeccion_items">
+                            <t t-set="items" t-value="grp[1]"/>
+                        </t>
+                    </t>
+
+                    <!-- 4 -->
+                    <div class="insp-h">4. Inspección de asistencia de protección contra incendios</div>
+                    <t t-foreach="grouped(o, 'fire_protection')" t-as="grp">
+                        <div class="insp-sub"><t t-esc="grp[0]"/></div>
+                        <t t-call="gestion_servicios.report_inspeccion_items">
+                            <t t-set="items" t-value="grp[1]"/>
+                        </t>
+                    </t>
+
+                    <!-- 5 -->
+                    <div class="insp-h">5. Inspección a sistemas de supresión de incendios de cocina (ANSUL)</div>
+                    <t t-call="gestion_servicios.report_inspeccion_items">
+                        <t t-set="items" t-value="section_items(o, 'kitchen_suppression')"/>
+                    </t>
+
+                    <!-- 6 -->
+                    <div class="insp-h">6. Observaciones generales de servicio</div>
+                    <t t-call="gestion_servicios.report_inspeccion_textblock">
+                        <t t-set="question" t-value="'A manera de resumen, enliste las deficiencias encontradas en los sistemas.'"/>
+                        <t t-set="text_value" t-value="o.observations_text"/>
+                        <t t-set="note_value" t-value="o.observations_note"/>
+                        <t t-set="attach_value" t-value="o.observations_attachment_ids"/>
+                    </t>
+
+                    <!-- 7 -->
+                    <div class="insp-h">7. Conclusión y recomendaciones del servicio</div>
+                    <t t-call="gestion_servicios.report_inspeccion_textblock">
+                        <t t-set="question" t-value="'Enliste las recomendaciones generales para los sistemas revisados durante la visita.'"/>
+                        <t t-set="text_value" t-value="o.recommendations_text"/>
+                        <t t-set="note_value" t-value="o.recommendations_note"/>
+                        <t t-set="attach_value" t-value="o.recommendations_attachment_ids"/>
+                    </t>
+
+                    <!-- 8 -->
+                    <div class="insp-h">8. Equipo o sistema quedan en</div>
+                    <t t-call="gestion_servicios.report_inspeccion_textblock">
+                        <t t-set="question" t-value="'Describir en qué estado quedan los equipos o sistemas.'"/>
+                        <t t-set="text_value" t-value="o.equipment_status_text"/>
+                        <t t-set="note_value" t-value="o.equipment_status_note"/>
+                        <t t-set="attach_value" t-value="o.equipment_status_attachment_ids"/>
+                    </t>
+
+                    <!-- 9 -->
+                    <div class="insp-h">9. Capacitación</div>
+                    <t t-call="gestion_servicios.report_inspeccion_items">
+                        <t t-set="items" t-value="section_items(o, 'training')"/>
+                    </t>
+
+                    <!-- 10 -->
+                    <div class="insp-h">10. Evaluación por parte del cliente</div>
+                    <t t-call="gestion_servicios.report_inspeccion_items">
+                        <t t-set="items" t-value="section_items(o, 'customer_evaluation')"/>
+                    </t>
+
+                    <!-- 11 -->
+                    <div class="insp-h">11. Recibido por</div>
+                    <table class="insp-kv" style="page-break-inside: avoid;">
+                        <tr>
+                            <th>Reporte elaborado por</th>
+                            <td>
+                                <div><span t-field="o.report_made_by"/></div>
+                                <div class="sig-box" t-if="o.report_made_signature">
+                                    <img class="sig-img" t-att-src="signature_uri(o.report_made_signature)"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Fecha</th>
+                            <td><span t-field="o.report_date"/></td>
+                        </tr>
+                        <tr>
+                            <th>Reporte recibido por</th>
+                            <td>
+                                <div><span t-field="o.report_received_by"/></div>
+                                <div class="sig-box" t-if="o.report_received_signature">
+                                    <img class="sig-img" t-att-src="signature_uri(o.report_received_signature)"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div t-if="o.received_note" class="insp-note">
+                        <strong>Nota:</strong> <span t-field="o.received_note"/>
+                    </div>
+                    <t t-if="o.received_attachment_ids">
+                        <t t-call="gestion_servicios.report_inspeccion_attachments">
+                            <t t-set="attachments" t-value="o.received_attachment_ids"/>
+                        </t>
+                    </t>
+
+                    <t t-if="o.notes or o.attachment_ids">
+                        <div class="insp-h">Observaciones generales del servicio</div>
+                        <div t-if="o.notes" class="insp-box"><span t-field="o.notes"/></div>
+                        <t t-if="o.attachment_ids">
+                            <t t-call="gestion_servicios.report_inspeccion_attachments">
+                                <t t-set="attachments" t-value="o.attachment_ids"/>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,405 @@
+<odoo>
+    <record id="view_servicio_inspeccion_list" model="ir.ui.view">
+        <field name="name">servicio.inspeccion.list</field>
+        <field name="model">servicio.inspeccion</field>
+        <field name="arch" type="xml">
+            <list string="Inspecciones de servicio">
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="inspection_date"/>
+                <field name="technician_id"/>
+                <field name="system_type"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_servicio_inspeccion_form" model="ir.ui.view">
+        <field name="name">servicio.inspeccion.form</field>
+        <field name="model">servicio.inspeccion</field>
+        <field name="arch" type="xml">
+            <form string="Inspección de servicio">
+                <header>
+                    <button name="action_previous_section" type="object"
+                            string="Anterior" icon="fa-chevron-left"
+                            invisible="section == 'detail'"/>
+                    <button name="action_next_section" type="object"
+                            string="Siguiente" icon="fa-chevron-right"
+                            class="btn-primary"
+                            invisible="section == 'received_by'"/>
+                    <button name="action_start_inspection" type="object"
+                            string="Iniciar inspección" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_complete_inspection" type="object"
+                            string="Completar inspección" class="btn-success"
+                            invisible="section != 'received_by' or state == 'done'"/>
+                    <button name="action_download_report" type="object"
+                            string="Descargar PDF" icon="fa-download" class="btn-primary"
+                            invisible="state != 'done'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="section" widget="selection"/>
+                        <field name="name" readonly="1"/>
+                    </group>
+
+                    <group invisible="section != 'detail'">
+                        <separator string="1. Detalle del servicio"/>
+                        <field name="report_type"/>
+                        <field name="customer_id"/>
+                        <field name="location"/>
+                        <field name="inspection_date"/>
+                        <field name="technician_id"/>
+                        <field name="customer_representative"/>
+                    </group>
+
+                    <group invisible="section != 'system_type'">
+                        <separator string="2. Tipo de sistemas"/>
+                        <field name="system_type"/>
+                    </group>
+
+                    <!-- SECCIÓN 3: 7 barras desplegables -->
+                    <group invisible="section != 'alarm_inspection'">
+                        <separator string="3. Inspección a sistemas de alarmas y detección de incendios"/>
+                    </group>
+
+                    <div invisible="section != 'alarm_inspection'" class="mt-2">
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Panel de alarmas
+                            </summary>
+                            <field name="item_panel_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Fuente de poder auxiliar
+                            </summary>
+                            <field name="item_power_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Detectores de humo
+                            </summary>
+                            <field name="item_smoke_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Detectores de Gas
+                            </summary>
+                            <field name="item_gas_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Estaciones manuales
+                            </summary>
+                            <field name="item_manual_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Módulos
+                            </summary>
+                            <field name="item_module_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Alarmas audiovisuales
+                            </summary>
+                            <field name="item_audiovisual_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                    </div>
+
+                    <!-- SECCIÓN 4: 8 barras desplegables -->
+                    <group invisible="section != 'fire_protection'">
+                        <separator string="4. Inspección de asistencia de protección contra incendios"/>
+                    </group>
+
+                    <div invisible="section != 'fire_protection'" class="mt-2">
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Tubería vertical (Risers)
+                            </summary>
+                            <field name="item_riser_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Rociadores
+                            </summary>
+                            <field name="item_sprinkler_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Red de hidrantes
+                            </summary>
+                            <field name="item_hydrant_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Alimentación de agua
+                            </summary>
+                            <field name="item_water_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Bomba diésel
+                            </summary>
+                            <field name="item_diesel_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Bomba eléctrica
+                            </summary>
+                            <field name="item_electric_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Bomba jockey
+                            </summary>
+                            <field name="item_jockey_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                        <details style="margin-bottom:8px;">
+                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                                ❯&#160;&#160;Cuarto de bombas
+                            </summary>
+                            <field name="item_pumproom_ids" nolabel="1">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                </list>
+                            </field>
+                        </details>
+
+                    </div>
+
+                    <group invisible="section != 'kitchen_suppression'">
+                        <separator string="5. Inspección a sistemas de supresión de incendios de cocina (ANSUL)"/>
+                    </group>
+                    <div invisible="section != 'kitchen_suppression'" class="mt-2">
+                        <field name="item_kitchen_ids" nolabel="1">
+                            <list editable="bottom" create="0" delete="0">
+                                <field name="question_short" string="Pregunta"/>
+                                <field name="answer" string="Respuesta"/>
+                                <field name="note" string="Añadir nota"/>
+                                <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                            </list>
+                        </field>
+                    </div>
+
+                    <group invisible="section != 'general_observations'">
+                        <separator string="6. Observaciones generales de servicio"/>
+                    </group>
+                    <div invisible="section != 'general_observations'" class="mt-2">
+                        <div class="fw-bold mb-2">A manera de resumen, enliste las deficiencias encontradas en los sistemas.</div>
+                        <field name="observations_text" nolabel="1" class="w-100"
+                               placeholder="Escriba aquí..."/>
+                        <group class="mt-3">
+                            <field name="observations_note" string="Añadir nota"/>
+                            <field name="observations_attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                        </group>
+                    </div>
+
+                    <group invisible="section != 'conclusion'">
+                        <separator string="7. Conclusión y recomendaciones del servicio"/>
+                    </group>
+                    <div invisible="section != 'conclusion'" class="mt-2">
+                        <div class="fw-bold mb-2">Enliste las recomendaciones generales para los sistemas revisados durante la visita.</div>
+                        <field name="recommendations_text" nolabel="1" class="w-100"
+                               placeholder="Escriba aquí..."/>
+                        <group class="mt-3">
+                            <field name="recommendations_note" string="Añadir nota"/>
+                            <field name="recommendations_attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                        </group>
+                    </div>
+
+                    <group invisible="section != 'equipment_status'">
+                        <separator string="8. Equipo o sistema quedan en"/>
+                    </group>
+                    <div invisible="section != 'equipment_status'" class="mt-2">
+                        <div class="fw-bold mb-2">Describir en qué estado quedan los equipos o sistemas.</div>
+                        <field name="equipment_status_text" nolabel="1" class="w-100"
+                               placeholder="Escriba aquí..."/>
+                        <group class="mt-3">
+                            <field name="equipment_status_note" string="Añadir nota"/>
+                            <field name="equipment_status_attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                        </group>
+                    </div>
+
+                    <group invisible="section != 'training'">
+                        <separator string="9. Capacitación"/>
+                    </group>
+                    <div invisible="section != 'training'" class="mt-2">
+                        <field name="item_training_ids" nolabel="1">
+                            <list editable="bottom" create="0" delete="0">
+                                <field name="question_short" string="Pregunta"/>
+                                <field name="answer" string="Respuesta"/>
+                                <field name="note" string="Añadir nota"/>
+                                <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                            </list>
+                        </field>
+                    </div>
+
+                    <group invisible="section != 'customer_evaluation'">
+                        <separator string="10. Evaluación por parte del cliente"/>
+                    </group>
+                    <div invisible="section != 'customer_evaluation'" class="mt-2">
+                        <field name="item_evaluation_ids" nolabel="1">
+                            <list editable="bottom" create="0" delete="0">
+                                <field name="answer_type" column_invisible="1"/>
+                                <field name="question_short" string="Pregunta"/>
+                                <field name="rating" string="Calificación" invisible="answer_type != 'rating'"/>
+                                <field name="answer" string="Comentario" invisible="answer_type == 'rating'"/>
+                                <field name="note" string="Añadir nota"/>
+                                <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                            </list>
+                        </field>
+                    </div>
+
+                    <group invisible="section != 'received_by'">
+                        <separator string="11. Recibido por"/>
+                        <field name="report_made_by"/>
+                        <field name="report_made_signature" widget="signature"
+                               options="{'full_name': 'report_made_by', 'size': [400, 150]}"/>
+                        <field name="report_date"/>
+                        <field name="report_received_by"/>
+                        <field name="report_received_signature" widget="signature"
+                               options="{'full_name': 'report_received_by', 'size': [400, 150]}"/>
+                        <field name="received_note" string="Añadir nota"/>
+                        <field name="received_attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                    </group>
+
+                    <group>
+                        <field name="notes" string="Observaciones generales del servicio"/>
+                        <field name="attachment_ids" widget="many2many_binary" string="Archivos multimedia del servicio"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_servicio_inspeccion" model="ir.actions.act_window">
+        <field name="name">Inspecciones de servicio</field>
+        <field name="res_model">servicio.inspeccion</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_gestion_servicios_root" name="Gestión de servicios" sequence="10"/>
+    <menuitem id="menu_servicio_inspeccion" name="Inspecciones"
+              parent="menu_gestion_servicios_root"
+              action="action_servicio_inspeccion" sequence="10"/>
+</odoo>

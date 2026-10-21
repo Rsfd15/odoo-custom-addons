@@ -1,0 +1,5 @@
+<odoo>
+    <menuitem id="menu_gestion_raiz" name="Gestión de Servicios" sequence="10"/>
+    <menuitem id="menu_gestion_inspecciones" name="Inspecciones"
+              parent="menu_gestion_raiz" action="action_inspeccion"/>
+</odoo>
