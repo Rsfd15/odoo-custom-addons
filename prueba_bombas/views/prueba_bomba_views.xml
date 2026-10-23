@@ -1,0 +1,197 @@
+<odoo>
+    <record id="view_bomba_prueba_list" model="ir.ui.view">
+        <field name="name">bomba.prueba.list</field>
+        <field name="model">bomba.prueba</field>
+        <field name="arch" type="xml">
+            <list string="Pruebas de bombas">
+                <field name="name"/>
+                <field name="test_date"/>
+                <field name="customer_id"/>
+                <field name="location"/>
+                <field name="pump_make"/>
+                <field name="pump_model"/>
+                <field name="serial_number"/>
+                <field name="technician_id"/>
+                <field name="result" widget="badge"
+                       decoration-success="result == 'pass'"
+                       decoration-danger="result == 'fail'"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'"
+                       decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bomba_prueba_search" model="ir.ui.view">
+        <field name="name">bomba.prueba.search</field>
+        <field name="model">bomba.prueba</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="location"/>
+                <field name="serial_number"/>
+                <filter name="draft" string="Borrador" domain="[('state', '=', 'draft')]"/>
+                <filter name="done" string="Finalizadas" domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_customer" string="Cliente" context="{'group_by': 'customer_id'}"/>
+                    <filter name="group_date" string="Fecha" context="{'group_by': 'test_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_bomba_prueba_form" model="ir.ui.view">
+        <field name="name">bomba.prueba.form</field>
+        <field name="model">bomba.prueba</field>
+        <field name="arch" type="xml">
+            <form string="Prueba de bomba contra incendios">
+                <header>
+                    <button name="action_mark_done" type="object" string="Finalizar prueba"
+                            class="btn-success" invisible="state == 'done'"/>
+                    <button name="action_preview_report" type="object" string="Vista previa"
+                            icon="fa-eye"/>
+                    <button name="action_download_report" type="object" string="Descargar PDF"
+                            icon="fa-download" class="btn-primary"/>
+                    <button name="action_send_email" type="object" string="Enviar por correo"
+                            icon="fa-envelope" class="btn-primary" invisible="state != 'done'"/>
+                    <button name="action_reset_draft" type="object" string="Volver a borrador"
+                            invisible="state != 'done'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Datos generales">
+                            <field name="customer_id" readonly="state == 'done'"/>
+                            <field name="account" readonly="state == 'done'"/>
+                            <field name="location" readonly="state == 'done'"/>
+                            <field name="inspection_number" readonly="state == 'done'"/>
+                            <field name="test_date" readonly="state == 'done'"/>
+                            <field name="technician_id" readonly="state == 'done'"/>
+                            <field name="customer_representative" readonly="state == 'done'"/>
+                        </group>
+                        <group string="Resultado">
+                            <field name="result" widget="badge"
+                                   decoration-success="result == 'pass'"
+                                   decoration-danger="result == 'fail'"/>
+                            <field name="churn_check"/>
+                            <field name="overload_check"/>
+                            <field name="plate_check"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Bomba" name="pump">
+                            <group>
+                                <group string="Identificación">
+                                    <field name="pump_type" readonly="state == 'done'"/>
+                                    <field name="driver_type" readonly="state == 'done'"/>
+                                    <field name="pump_make" readonly="state == 'done'"/>
+                                    <field name="pump_model" readonly="state == 'done'"/>
+                                    <field name="serial_number" readonly="state == 'done'"/>
+                                    <field name="suction_size" readonly="state == 'done'"/>
+                                    <field name="discharge_size" readonly="state == 'done'"/>
+                                </group>
+                                <group string="Valores nominales (placa)">
+                                    <field name="rated_flow" readonly="state == 'done'"/>
+                                    <field name="rated_pressure" readonly="state == 'done'"/>
+                                    <field name="rated_speed" readonly="state == 'done'"/>
+                                    <field name="rated_volts" readonly="state == 'done'"
+                                           invisible="driver_type != 'electric'"/>
+                                    <field name="rated_amps" readonly="state == 'done'"
+                                           invisible="driver_type != 'electric'"/>
+                                </group>
+                                <group string="Criterios de cálculo">
+                                    <field name="apply_speed_correction" readonly="state == 'done'"/>
+                                    <field name="net_includes_velocity_head" readonly="state == 'done'"/>
+                                    <field name="acceptance_pct" readonly="state == 'done'"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Mediciones de campo" name="readings">
+                            <field name="reading_ids" readonly="state == 'done'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="point_type"/>
+                                    <field name="outlet_diameter" optional="show"/>
+                                    <field name="cd" optional="show"/>
+                                    <field name="pitot_1" optional="show"/>
+                                    <field name="pitot_2" optional="show"/>
+                                    <field name="pitot_3" optional="hide"/>
+                                    <field name="pitot_4" optional="hide"/>
+                                    <field name="pitot_5" optional="hide"/>
+                                    <field name="pitot_6" optional="hide"/>
+                                    <field name="pitot_7" optional="hide"/>
+                                    <field name="pitot_8" optional="hide"/>
+                                    <field name="flowmeter_gpm"/>
+                                    <field name="combined_flow"/>
+                                    <field name="suction_psi"/>
+                                    <field name="discharge_psi"/>
+                                    <field name="velocity_head" optional="show"/>
+                                    <field name="net_pressure"/>
+                                    <field name="pump_speed"/>
+                                    <field name="corrected_flow"/>
+                                    <field name="corrected_pressure"/>
+                                    <field name="volts" optional="show"/>
+                                    <field name="amps" optional="show"/>
+                                    <field name="plate_pct" optional="show"/>
+                                    <field name="plate_evaluation" optional="show"
+                                           decoration-success="plate_evaluation == 'pass'"
+                                           decoration-danger="plate_evaluation == 'fail'"/>
+                                </list>
+                            </field>
+                            <div class="text-muted small">
+                                Caudal pitot: Q = 29.83 · Cd · d² · √P por cada salida. Si se captura el
+                                flujómetro, se usa como caudal combinado. Los valores corregidos aplican las
+                                leyes de afinidad a la velocidad nominal.
+                            </div>
+                        </page>
+                        <page string="Curva de placa" name="plate">
+                            <button name="action_generate_plate" type="object" class="btn-secondary mb-2"
+                                    string="Generar desde valores nominales (NFPA 20)"
+                                    invisible="state == 'done'"
+                                    confirm="Se reemplazarán los puntos actuales de la curva de placa. ¿Continuar?"/>
+                            <field name="plate_ids" readonly="state == 'done'">
+                                <list editable="bottom">
+                                    <field name="sequence" column_invisible="1"/>
+                                    <field name="flow"/>
+                                    <field name="pressure"/>
+                                </list>
+                            </field>
+                            <div class="text-muted small">
+                                Capture los puntos de la curva certificada del fabricante. El botón genera los
+                                puntos teóricos 0 % / 100 % / 150 % (120 % / 100 % / 65 % de la presión nominal)
+                                como punto de partida.
+                            </div>
+                        </page>
+                        <page string="Gráfica" name="chart">
+                            <field name="chart_svg" nolabel="1" readonly="1"/>
+                        </page>
+                        <page string="Observaciones" name="notes">
+                            <group>
+                                <field name="observations" readonly="state == 'done'"/>
+                                <field name="recommendations" readonly="state == 'done'"/>
+                                <field name="received_by" readonly="state == 'done'"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bomba_prueba" model="ir.actions.act_window">
+        <field name="name">Pruebas de bombas</field>
+        <field name="res_model">bomba.prueba</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Registra la primera prueba de bomba contra incendios</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_bomba_raiz" name="Pruebas de Bombas" sequence="11"/>
+    <menuitem id="menu_bomba_pruebas" name="Pruebas" parent="menu_bomba_raiz"
+              action="action_bomba_prueba"/>
+</odoo>

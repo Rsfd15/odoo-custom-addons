@@ -1,0 +1,8 @@
+<odoo>
+    <record id="seq_bomba_prueba" model="ir.sequence">
+        <field name="name">Prueba de bomba contra incendios</field>
+        <field name="code">bomba.prueba</field>
+        <field name="prefix">PBC-</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

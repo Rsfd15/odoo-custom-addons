@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_prueba_bomba" model="report.paperformat">
+        <field name="name">Prueba de bomba (carta horizontal)</field>
+        <field name="default" eval="False"/>
+        <field name="format">Letter</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_prueba_bomba" model="ir.actions.report">
+        <field name="name">Reporte de prueba de bomba</field>
+        <field name="model">bomba.prueba</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">prueba_bombas.report_prueba_bomba_document</field>
+        <field name="report_file">prueba_bombas.report_prueba_bomba_document</field>
+        <field name="print_report_name">'Prueba-Bomba-%s' % (object.name or 'reporte')</field>
+        <field name="paperformat_id" ref="paperformat_prueba_bomba"/>
+        <field name="binding_model_id" ref="model_bomba_prueba"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Misma plantilla en HTML para la vista previa en el navegador -->
+    <record id="action_report_prueba_bomba_html" model="ir.actions.report">
+        <field name="name">Vista previa de prueba de bomba</field>
+        <field name="model">bomba.prueba</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">prueba_bombas.report_prueba_bomba_document</field>
+        <field name="report_file">prueba_bombas.report_prueba_bomba_document</field>
+        <field name="paperformat_id" ref="paperformat_prueba_bomba"/>
+    </record>
+
+    <template id="report_prueba_bomba_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="readings" t-value="o.reading_ids.filtered(lambda r: r.discharge_psi or r.combined_flow)"/>
+                <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id">
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                <div class="page fp-report">
+                    <style>
+                        .fp-report { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #000; }
+                        .fp-report table { width: 100%; border-collapse: collapse; }
+                        .fp-report td, .fp-report th { border: 1px solid #000; padding: 2px 3px; }
+                        .fp-title { font-size: 15px; font-weight: bold; text-align: center; text-decoration: underline; }
+                        .fp-lbl { background: #dbe5f1; font-weight: bold; white-space: nowrap; }
+                        .fp-val { color: #c00000; font-weight: bold; text-align: center; }
+                        .fp-band td { background: #3f5f8f; height: 6px; padding: 0; }
+                        .fp-yellow td { background: #ffc000; height: 8px; padding: 0; }
+                        .fp-head th { background: #dbe5f1; text-align: center; font-size: 9px; vertical-align: middle; }
+                        .fp-head small { font-weight: normal; }
+                        .fp-data td { text-align: center; color: #c00000; font-weight: bold; }
+                        .fp-data td.fp-date { color: #c00000; font-size: 11px; vertical-align: middle; }
+                        .fp-note { font-size: 8px; margin: 3px 0 6px 0; }
+                        .fp-chart { border: 1px solid #000; padding: 4px; text-align: center; page-break-inside: avoid; }
+                        .fp-sec { background: #3f5f8f; color: #fff; font-weight: bold; padding: 3px 6px; margin-top: 8px; }
+                        .fp-ok { color: #1e7b34; font-weight: bold; }
+                        .fp-bad { color: #c00000; font-weight: bold; }
+                        .fp-box { border: 1px solid #000; padding: 4px; min-height: 30px; white-space: pre-wrap; }
+                        .fp-sign td { border: none; text-align: center; padding-top: 30px; }
+                        .fp-sign span { display: inline-block; border-top: 1px solid #000; width: 70%; padding-top: 3px; }
+                    </style>
+
+                    <!-- Encabezado -->
+                    <table>
+                        <tr>
+                            <td class="fp-lbl" style="width:8%;">Account:</td>
+                            <td class="fp-val" style="width:16%;"><t t-esc="o.account or ''"/></td>
+                            <td colspan="10" class="fp-title" style="border:none;">
+                                RESULTADOS DE PRUEBA DE BOMBA CONTRAINCENDIO NETO / FIRE PUMP TEST RESULTS ON NET BASIS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fp-lbl">Location:</td>
+                            <td class="fp-val"><t t-esc="o.location"/></td>
+                            <td class="fp-lbl">Pump ID:</td>
+                            <td class="fp-val"><t t-esc="o.pump_type or ''"/></td>
+                            <td class="fp-lbl">Rated Flow:</td>
+                            <td class="fp-val"><t t-esc="'{:,.0f}'.format(o.rated_flow)"/></td>
+                            <td class="fp-lbl">Rated Pressure:</td>
+                            <td class="fp-val"><t t-esc="'%.0f' % o.rated_pressure"/></td>
+                            <td class="fp-lbl">Rated Speed:</td>
+                            <td class="fp-val"><t t-esc="'%.0f' % o.rated_speed"/></td>
+                            <td class="fp-lbl">Suction Size (in.):</td>
+                            <td class="fp-val"><t t-esc="'%g' % o.suction_size"/></td>
+                        </tr>
+                        <tr>
+                            <td class="fp-lbl">Inspection #</td>
+                            <td class="fp-val"><t t-esc="o.inspection_number or ''"/></td>
+                            <td class="fp-lbl">Make:</td>
+                            <td class="fp-val"><t t-esc="o.pump_make or ''"/></td>
+                            <td class="fp-lbl">Model:</td>
+                            <td class="fp-val" colspan="3"><t t-esc="o.pump_model or ''"/></td>
+                            <td class="fp-lbl">Serial No.:</td>
+                            <td class="fp-val"><t t-esc="o.serial_number or ''"/></td>
+                            <td class="fp-lbl">Discharge Size (in.):</td>
+                            <td class="fp-val"><t t-esc="'%g' % o.discharge_size"/></td>
+                        </tr>
+                        <tr>
+                            <td class="fp-lbl">Cliente:</td>
+                            <td class="fp-val" colspan="3"><t t-esc="o.customer_id.name"/></td>
+                            <td class="fp-lbl">Reporte:</td>
+                            <td class="fp-val"><t t-esc="o.name"/></td>
+                            <td class="fp-lbl">Técnico:</td>
+                            <td class="fp-val" colspan="3"><t t-esc="o.technician_id.name or ''"/></td>
+                            <td class="fp-lbl">Accionamiento:</td>
+                            <td class="fp-val"><span t-field="o.driver_type"/></td>
+                        </tr>
+                    </table>
+
+                    <!-- Tabla de resultados -->
+                    <table style="margin-top:4px;">
+                        <tr class="fp-band"><td colspan="23"/></tr>
+                        <tr class="fp-head">
+                            <th rowspan="2">Pump<br/>Test<br/>Date</th>
+                            <th rowspan="2">Flowing<br/>Outlet I.D.*<br/><small>(i.e. 1 1/8"=1.125")</small></th>
+                            <th rowspan="2">Cd*</th>
+                            <th rowspan="2" colspan="8">Pitot Readings* - (psi)</th>
+                            <th rowspan="2">Flow-<br/>meter<br/>(gpm)</th>
+                            <th rowspan="2">Combined<br/>Flow<br/>(gpm)</th>
+                            <th colspan="2">Pressure</th>
+                            <th>Vel.</th>
+                            <th>Net</th>
+                            <th>Pump</th>
+                            <th colspan="2">Corr. to Rated Speed</th>
+                            <th rowspan="2">Volts<br/>(v)</th>
+                            <th rowspan="2">Amps<br/>(A)</th>
+                            <th rowspan="2">% vs.<br/>Placa</th>
+                        </tr>
+                        <tr class="fp-head">
+                            <th>Suction<br/>(psi)</th>
+                            <th>Discharge<br/>(psi)</th>
+                            <th>Head<br/>Corr.</th>
+                            <th>Pressure<br/>(psi)</th>
+                            <th>Speed<br/>(rpm)</th>
+                            <th>Flow<br/>(gpm)</th>
+                            <th>Pressure<br/>(psi)</th>
+                        </tr>
+                        <tr class="fp-yellow"><td colspan="23"/></tr>
+                        <t t-foreach="readings" t-as="r">
+                            <tr class="fp-data">
+                                <td t-if="r_first" class="fp-date" t-att-rowspan="len(readings)">
+                                    <t t-esc="o.test_date.strftime('%d %m %Y')"/>
+                                </td>
+                                <td><t t-esc="r.outlet_label()"/></td>
+                                <td><t t-esc="'%.2f' % r.cd"/></td>
+                                <td><t t-esc="('%g' % r.pitot_1) if r.pitot_1 else 'N/A'"/></td>
+                                <td><t t-esc="('%g' % r.pitot_2) if r.pitot_2 else 'N/A'"/></td>
+                                <td><t t-esc="('%g' % r.pitot_3) if r.pitot_3 else 'N/A'"/></td>
+                                <td><t t-esc="('%g' % r.pitot_4) if r.pitot_4 else 'N/A'"/></td>
+                                <td><t t-esc="('%g' % r.pitot_5) if r.pitot_5 else 'N/A'"/></td>
+                                <td><t t-esc="('%g' % r.pitot_6) if r.pitot_6 else 'N/A'"/></td>
+                                <td><t t-esc="('%g' % r.pitot_7) if r.pitot_7 else 'N/A'"/></td>
+                                <td><t t-esc="('%g' % r.pitot_8) if r.pitot_8 else 'N/A'"/></td>
+                                <td><t t-esc="'{:,.0f}'.format(r.flowmeter_gpm)"/></td>
+                                <td><t t-esc="'{:,.0f}'.format(r.combined_flow)"/></td>
+                                <td><t t-esc="'%g' % round(r.suction_psi, 1)"/></td>
+                                <td><t t-esc="'%g' % round(r.discharge_psi, 1)"/></td>
+                                <td><t t-esc="'%.1f' % r.velocity_head"/></td>
+                                <td><t t-esc="'%.0f' % r.net_pressure"/></td>
+                                <td><t t-esc="'%.0f' % r.pump_speed"/></td>
+                                <td><t t-esc="'{:,.0f}'.format(r.corrected_flow)"/></td>
+                                <td><t t-esc="'%.0f' % r.corrected_pressure"/></td>
+                                <td><t t-esc="'%.0f' % r.volts if r.volts else ''"/></td>
+                                <td><t t-esc="'%.1f' % r.amps if r.amps else ''"/></td>
+                                <td t-att-class="'fp-ok' if r.plate_evaluation == 'pass' else ('fp-bad' if r.plate_evaluation == 'fail' else '')">
+                                    <t t-esc="('%.1f' % r.plate_pct) + ' %' if r.plate_evaluation != 'na' else '—'"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <tr class="fp-yellow"><td colspan="23"/></tr>
+                    </table>
+                    <div class="fp-note">
+                        *NOTE: Flowing Outlet I.D. must be 1.125", 1.75" or 2.5". The conversion of pitot readings
+                        to a flowrate is automatic: Q = 29.83 · Cd · d² · √P.
+                        <t t-if="o.apply_speed_correction">Corrected values use the affinity laws to rated speed.</t>
+                        <t t-if="o.net_includes_velocity_head">Net pressure includes velocity head correction.</t>
+                    </div>
+
+                    <!-- Gráfica -->
+                    <div class="fp-chart">
+                        <img t-att-src="o.chart_data_uri()" style="width:100%;"/>
+                    </div>
+
+                    <!-- Evaluación -->
+                    <div style="page-break-inside: avoid;">
+                        <div class="fp-sec">EVALUACIÓN DE LA PRUEBA</div>
+                        <table>
+                            <tr>
+                                <td class="fp-lbl" style="width:35%;">Presión en churn ≤ 140 % de la nominal</td>
+                                <td style="width:15%;"><span t-field="o.churn_check"/></td>
+                                <td class="fp-lbl" style="width:35%;">Presión al 150 % ≥ 65 % de la nominal</td>
+                                <td><span t-field="o.overload_check"/></td>
+                            </tr>
+                            <tr>
+                                <td class="fp-lbl">
+                                    Puntos corregidos ≥ <t t-esc="'%g' % o.acceptance_pct"/> % de la curva de placa
+                                </td>
+                                <td><span t-field="o.plate_check"/></td>
+                                <td class="fp-lbl">RESULTADO</td>
+                                <td t-att-class="'fp-ok' if o.result == 'pass' else ('fp-bad' if o.result == 'fail' else '')">
+                                    <span t-field="o.result"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <t t-if="o.observations">
+                            <div class="fp-sec">OBSERVACIONES</div>
+                            <div class="fp-box"><t t-esc="o.observations"/></div>
+                        </t>
+                        <t t-if="o.recommendations">
+                            <div class="fp-sec">RECOMENDACIONES</div>
+                            <div class="fp-box"><t t-esc="o.recommendations"/></div>
+                        </t>
+
+                        <table class="fp-sign">
+                            <tr>
+                                <td style="width:50%;">
+                                    <span>
+                                        <t t-esc="o.technician_id.name or ''"/><br/>Realizó (técnico)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <t t-esc="o.received_by or o.customer_representative or ''"/><br/>Recibió (cliente)
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bomba_prueba_user,bomba.prueba.user,model_bomba_prueba,base.group_user,1,1,1,1
+access_bomba_prueba_lectura_user,bomba.prueba.lectura.user,model_bomba_prueba_lectura,base.group_user,1,1,1,1
+access_bomba_prueba_placa_user,bomba.prueba.placa.user,model_bomba_prueba_placa,base.group_user,1,1,1,1
