@@ -30,14 +30,13 @@
             <t t-set="img_src" t-value="image_uri(att) if is_image(att) else ''"/>
             <t t-if="img_src">
                 <div class="att-box">
-                    <img class="att-img" t-att-src="img_src"/>
+                    <a t-att-href="photo_url(att)">
+                        <img class="att-img" t-att-src="img_src"/>
+                    </a>
                 </div>
             </t>
             <t t-else="">
-                <div class="att-file">
-                    Archivo adjunto: <strong><t t-esc="att.name"/></strong>
-                    <span> (<t t-esc="att.mimetype or 'archivo'"/>)</span>
-                </div>
+                <div class="att-file">Archivo adjunto: <t t-esc="att.name"/></div>
             </t>
         </t>
     </template>
@@ -70,6 +69,22 @@
                         <td colspan="3">
                             <t t-call="gestion_servicios.report_inspeccion_attachments">
                                 <t t-set="attachments" t-value="item.attachment_ids"/>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr t-if="item.attachment_before_ids">
+                        <td colspan="3">
+                            <div class="att-label">Fotos ANTES</div>
+                            <t t-call="gestion_servicios.report_inspeccion_attachments">
+                                <t t-set="attachments" t-value="item.attachment_before_ids"/>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr t-if="item.attachment_after_ids">
+                        <td colspan="3">
+                            <div class="att-label">Fotos DESPUÉS</div>
+                            <t t-call="gestion_servicios.report_inspeccion_attachments">
+                                <t t-set="attachments" t-value="item.attachment_after_ids"/>
                             </t>
                         </td>
                     </tr>
@@ -116,8 +131,10 @@
                         .insp-q { font-weight: bold; margin-bottom: 4px; }
                         .insp-box { border: 1px solid #ccc; border-radius: 4px; padding: 8px; min-height: 40px; }
                         .insp-note { margin-top: 6px; }
-                        .att-box { margin: 6px 0; text-align: center; }
-                        .att-img { max-width: 50%; max-height: 115mm; height: auto; width: auto; }
+                        .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
+                        .att-box a { text-decoration: none; }
+                        .att-label { font-weight: bold; color: #4a42c9; margin: 4px 0 2px 0; }
+                        .att-img { max-width: 100%; max-height: 28mm; height: auto; width: auto; }
                         .att-box img { display: inline-block; }
                         .att-file { font-size: 10px; color: #555; margin: 4px 0; }
                         .sig-box { text-align: center; }
@@ -253,6 +270,7 @@
                             </t>
                         </t>
                     </t>
+
                 </div>
                 </div>
             </t>

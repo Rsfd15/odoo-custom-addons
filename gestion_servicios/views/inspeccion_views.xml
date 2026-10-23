@@ -72,10 +72,14 @@
                             </summary>
                             <field name="item_panel_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -86,10 +90,14 @@
                             </summary>
                             <field name="item_power_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -100,10 +108,14 @@
                             </summary>
                             <field name="item_smoke_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -114,13 +126,19 @@
                             </summary>
                             <field name="item_gas_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
+
+                        
 
                         <details style="margin-bottom:8px;">
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
@@ -128,10 +146,14 @@
                             </summary>
                             <field name="item_manual_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -142,10 +164,14 @@
                             </summary>
                             <field name="item_module_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -156,10 +182,14 @@
                             </summary>
                             <field name="item_audiovisual_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -179,10 +209,14 @@
                             </summary>
                             <field name="item_riser_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -193,10 +227,14 @@
                             </summary>
                             <field name="item_sprinkler_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -207,13 +245,19 @@
                             </summary>
                             <field name="item_hydrant_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
+
+                        
 
                         <details style="margin-bottom:8px;">
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
@@ -221,10 +265,14 @@
                             </summary>
                             <field name="item_water_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -235,10 +283,14 @@
                             </summary>
                             <field name="item_diesel_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -249,10 +301,14 @@
                             </summary>
                             <field name="item_electric_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -263,10 +319,14 @@
                             </summary>
                             <field name="item_jockey_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -277,10 +337,14 @@
                             </summary>
                             <field name="item_pumproom_ids" nolabel="1">
                                 <list editable="bottom" create="0" delete="0">
+                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
                                 </list>
                             </field>
                         </details>
@@ -293,11 +357,15 @@
                     <div invisible="section != 'kitchen_suppression'" class="mt-2">
                         <field name="item_kitchen_ids" nolabel="1">
                             <list editable="bottom" create="0" delete="0">
-                                <field name="question_short" string="Pregunta"/>
-                                <field name="answer" string="Respuesta"/>
-                                <field name="note" string="Añadir nota"/>
-                                <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
-                            </list>
+                                    <field name="media_rule" column_invisible="1"/>
+                                    <field name="question_short" string="Pregunta"/>
+                                    <field name="answer" string="Respuesta"/>
+                                    <field name="note" string="Añadir nota"/>
+                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
+                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                </list>
                         </field>
                     </div>
 
@@ -383,10 +451,6 @@
                         <field name="received_attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia"/>
                     </group>
 
-                    <group>
-                        <field name="notes" string="Observaciones generales del servicio"/>
-                        <field name="attachment_ids" widget="many2many_binary" string="Archivos multimedia del servicio"/>
-                    </group>
                 </sheet>
             </form>
         </field>
