@@ -36,6 +36,9 @@
                     <button name="action_download_report" type="object"
                             string="Descargar PDF" icon="fa-download" class="btn-primary"
                             invisible="state != 'done'"/>
+                    <button name="action_send_email" type="object"
+                            string="Enviar por correo" icon="fa-envelope" class="btn-primary"
+                            invisible="state != 'done'"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -724,6 +727,7 @@
                     </group>
 
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>

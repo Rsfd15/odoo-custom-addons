@@ -318,6 +318,7 @@ RATING_SELECTION = [
 
 class ServicioInspeccion(models.Model):
     _name = "servicio.inspeccion"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Reporte de inspección de servicios"
     _order = "create_date desc"
 
@@ -506,6 +507,26 @@ class ServicioInspeccion(models.Model):
         return self.env.ref(
             "gestion_servicios.action_report_inspeccion"
         ).report_action(self)
+
+    def action_send_email(self):
+        """Abre el correo al cliente con el PDF del reporte adjunto."""
+        self.ensure_one()
+        template = self.env.ref("gestion_servicios.mail_template_inspeccion")
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Enviar reporte por correo",
+            "res_model": "mail.compose.message",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_model": self._name,
+                "default_res_ids": self.ids,
+                "default_template_id": template.id,
+                "default_composition_mode": "comment",
+                "default_email_layout_xmlid": "mail.mail_notification_light",
+                "force_email": True,
+            },
+        }
 
 
 class ServicioInspeccionItem(models.Model):
