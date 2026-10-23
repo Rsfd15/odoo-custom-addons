@@ -64,23 +64,40 @@
                         <separator string="3. Inspección a sistemas de alarmas y detección de incendios"/>
                     </group>
 
-                    <div invisible="section != 'alarm_inspection'" class="mt-2">
+                    <div invisible="section != 'alarm_inspection'" class="mt-2 o_insp_section">
 
                         <details style="margin-bottom:8px;">
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Panel de alarmas
                             </summary>
-                            <field name="item_panel_ids" nolabel="1">
+                            <field name="item_panel_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -88,17 +105,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Fuente de poder auxiliar
                             </summary>
-                            <field name="item_power_ids" nolabel="1">
+                            <field name="item_power_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -106,17 +140,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Detectores de humo
                             </summary>
-                            <field name="item_smoke_ids" nolabel="1">
+                            <field name="item_smoke_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -124,17 +175,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Detectores de Gas
                             </summary>
-                            <field name="item_gas_ids" nolabel="1">
+                            <field name="item_gas_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -144,17 +212,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Estaciones manuales
                             </summary>
-                            <field name="item_manual_ids" nolabel="1">
+                            <field name="item_manual_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -162,17 +247,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Módulos
                             </summary>
-                            <field name="item_module_ids" nolabel="1">
+                            <field name="item_module_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -180,17 +282,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Alarmas audiovisuales
                             </summary>
-                            <field name="item_audiovisual_ids" nolabel="1">
+                            <field name="item_audiovisual_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -201,23 +320,40 @@
                         <separator string="4. Inspección de asistencia de protección contra incendios"/>
                     </group>
 
-                    <div invisible="section != 'fire_protection'" class="mt-2">
+                    <div invisible="section != 'fire_protection'" class="mt-2 o_insp_section">
 
                         <details style="margin-bottom:8px;">
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Tubería vertical (Risers)
                             </summary>
-                            <field name="item_riser_ids" nolabel="1">
+                            <field name="item_riser_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -225,17 +361,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Rociadores
                             </summary>
-                            <field name="item_sprinkler_ids" nolabel="1">
+                            <field name="item_sprinkler_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -243,17 +396,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Red de hidrantes
                             </summary>
-                            <field name="item_hydrant_ids" nolabel="1">
+                            <field name="item_hydrant_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -263,17 +433,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Alimentación de agua
                             </summary>
-                            <field name="item_water_ids" nolabel="1">
+                            <field name="item_water_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -281,17 +468,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Bomba diésel
                             </summary>
-                            <field name="item_diesel_ids" nolabel="1">
+                            <field name="item_diesel_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -299,17 +503,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Bomba eléctrica
                             </summary>
-                            <field name="item_electric_ids" nolabel="1">
+                            <field name="item_electric_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -317,17 +538,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Bomba jockey
                             </summary>
-                            <field name="item_jockey_ids" nolabel="1">
+                            <field name="item_jockey_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -335,17 +573,34 @@
                             <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Cuarto de bombas
                             </summary>
-                            <field name="item_pumproom_ids" nolabel="1">
+                            <field name="item_pumproom_ids" nolabel="1" mode="list,kanban">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
                                     <field name="question_short" string="Pregunta"/>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
                                 </list>
+                                <kanban create="0" delete="0">
+                                    <templates>
+                                        <t t-name="card">
+                                            <field name="question_short" class="fw-bold"/>
+                                            <field name="answer" class="text-muted"/>
+                                            <span class="small text-primary">Toca para responder</span>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <div class="fw-bold mb-2">
+                                        <field name="question_short" readonly="1"/>
+                                    </div>
+                                    <group>
+                                        <field name="answer" string="Respuesta"/>
+                                        <field name="note" string="Añadir nota"/>
+                                        <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                        <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                    </group>
+                                </form>
                             </field>
                         </details>
 
@@ -354,18 +609,35 @@
                     <group invisible="section != 'kitchen_suppression'">
                         <separator string="5. Inspección a sistemas de supresión de incendios de cocina (ANSUL)"/>
                     </group>
-                    <div invisible="section != 'kitchen_suppression'" class="mt-2">
-                        <field name="item_kitchen_ids" nolabel="1">
+                    <div invisible="section != 'kitchen_suppression'" class="mt-2 o_insp_section">
+                        <field name="item_kitchen_ids" nolabel="1" mode="list,kanban">
                             <list editable="bottom" create="0" delete="0">
-                                    <field name="media_rule" column_invisible="1"/>
-                                    <field name="question_short" string="Pregunta"/>
+                                <field name="question_short" string="Pregunta"/>
+                                <field name="answer" string="Respuesta"/>
+                                <field name="note" string="Añadir nota"/>
+                                <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                            </list>
+                            <kanban create="0" delete="0">
+                                <templates>
+                                    <t t-name="card">
+                                        <field name="question_short" class="fw-bold"/>
+                                        <field name="answer" class="text-muted"/>
+                                        <span class="small text-primary">Toca para responder</span>
+                                    </t>
+                                </templates>
+                            </kanban>
+                            <form>
+                                <div class="fw-bold mb-2">
+                                    <field name="question_short" readonly="1"/>
+                                </div>
+                                <group>
                                     <field name="answer" string="Respuesta"/>
                                     <field name="note" string="Añadir nota"/>
-                                    <field name="attachment_ids" widget="many2many_binary" string="Adjuntar archivos multimedia" invisible="media_rule"/>
-                                    <field name="media_hint" string="Fotos permitidas" invisible="not media_rule"/>
-                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES" invisible="not media_rule"/>
-                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS" invisible="not media_rule"/>
-                                </list>
+                                    <field name="attachment_before_ids" widget="many2many_binary" string="Fotos ANTES (máx. 4)"/>
+                                    <field name="attachment_after_ids" widget="many2many_binary" string="Fotos DESPUÉS (máx. 4)"/>
+                                </group>
+                            </form>
                         </field>
                     </div>
 
@@ -411,7 +683,7 @@
                     <group invisible="section != 'training'">
                         <separator string="9. Capacitación"/>
                     </group>
-                    <div invisible="section != 'training'" class="mt-2">
+                    <div invisible="section != 'training'" class="mt-2 o_insp_section">
                         <field name="item_training_ids" nolabel="1">
                             <list editable="bottom" create="0" delete="0">
                                 <field name="question_short" string="Pregunta"/>
@@ -425,7 +697,7 @@
                     <group invisible="section != 'customer_evaluation'">
                         <separator string="10. Evaluación por parte del cliente"/>
                     </group>
-                    <div invisible="section != 'customer_evaluation'" class="mt-2">
+                    <div invisible="section != 'customer_evaluation'" class="mt-2 o_insp_section">
                         <field name="item_evaluation_ids" nolabel="1">
                             <list editable="bottom" create="0" delete="0">
                                 <field name="answer_type" column_invisible="1"/>

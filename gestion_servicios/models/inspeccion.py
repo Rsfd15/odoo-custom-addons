@@ -74,196 +74,198 @@ SUBSECTION_PREFIXES = {
     "Cuarto de bombas": "pumproom",
 }
 
-# Formato de cada pregunta: (texto, fotos permitidas, videos permitidos)
-#   fotos = 0 y videos = 0  ->  pregunta normal (adjuntos libres, como antes)
-#   fotos > 0 o videos > 0  ->  llevan zonas "ANTES" y "DESPUÉS"; el límite aplica a cada zona
-# Para cambiar un límite, solo cambia el número de la pregunta.
+# Cada pregunta de las secciones 3, 4 y 5 lleva zonas "Fotos ANTES" y
+# "Fotos DESPUÉS" con un máximo de PHOTO_LIMIT fotos en cada zona.
+PHOTO_LIMIT = 4
+
+# Preguntas que además admiten video (máximo de videos por zona)
+VIDEO_RULES = {
+    "¿El panel de alarmas se encuentra sin problemas o alarmas activas? (Tomar video de todas las fallas mencionando la falla, el código y la acción correctiva sugerida, en caso de aplicar.)": 1,
+    "Indique el resultado de las pruebas de arranque y problema a la bomba jockey.": 1,
+}
 
 ALARM_GROUPS = [
     ("Panel de alarmas", [
-        ("¿El panel de alarmas está encendido y operando?", 4, 0),
-        ("Indique la cantidad de paneles y ubicación de cada uno.", 0, 0),
-        ("Indique la(s) marca(s) y modelo(s) del panel de alarmas.", 0, 0),
-        ("¿El panel de alarmas se encuentra sin problemas o alarmas activas? (Tomar video de todas las fallas mencionando la falla, el código y la acción correctiva sugerida, en caso de aplicar.)", 0, 1),
-        ("¿La integridad del gabinete del panel de alarmas es óptima?", 1, 0),
-        ("¿Funcionan correctamente los indicadores LED?", 0, 0),
-        ("¿Funcionan correctamente el display y teclado?", 0, 0),
-        ("¿Los voltajes de corriente directa del panel de control son correctos? Indique el valor de los voltajes.", 1, 0),
-        ("¿La alimentación eléctrica de 120 VCA es regulada, cuenta con 3 hilos (fase, neutro y tierra física), y dispone de un circuito dedicado e identificado?", 1, 0),
-        ("¿La conexión de terminales, lazos y fuente de poder del panel de control está completa y funciona correctamente?", 1, 0),
-        ("¿El estado de las baterías del panel es adecuado?", 1, 0),
-        ("¿Se cuenta con etiqueta de cambio o instalación de baterías de respaldo en el panel de control?", 1, 0),
-        ("Observaciones", 0, 0),
+        "¿El panel de alarmas está encendido y operando?",
+        "Indique la cantidad de paneles y ubicación de cada uno.",
+        "Indique la(s) marca(s) y modelo(s) del panel de alarmas.",
+        "¿El panel de alarmas se encuentra sin problemas o alarmas activas? (Tomar video de todas las fallas mencionando la falla, el código y la acción correctiva sugerida, en caso de aplicar.)",
+        "¿La integridad del gabinete del panel de alarmas es óptima?",
+        "¿Funcionan correctamente los indicadores LED?",
+        "¿Funcionan correctamente el display y teclado?",
+        "¿Los voltajes de corriente directa del panel de control son correctos? Indique el valor de los voltajes.",
+        "¿La alimentación eléctrica de 120 VCA es regulada, cuenta con 3 hilos (fase, neutro y tierra física), y dispone de un circuito dedicado e identificado?",
+        "¿La conexión de terminales, lazos y fuente de poder del panel de control está completa y funciona correctamente?",
+        "¿El estado de las baterías del panel es adecuado?",
+        "¿Se cuenta con etiqueta de cambio o instalación de baterías de respaldo en el panel de control?",
+        "Observaciones",
     ]),
     ("Fuente de poder auxiliar", [
-        ("Indique la cantidad y ubicación de fuentes de poder de alimentación externa.", 10, 0),
-        ("¿El estado físico de la fuente de poder auxiliar es óptimo?", 1, 0),
-        ("Indique el tipo de daño, si aplica.", 0, 0),
-        ("¿El estado de las baterías en fuente de poder auxiliar es óptimo?", 1, 0),
-        ("¿El voltaje de NAC de fuente de poder auxiliar es óptimo?", 1, 0),
-        ("¿Se cuenta con etiqueta de cambio o instalación de baterías de respaldo en fuente de poder auxiliar?", 1, 0),
-        ("Observaciones", 0, 0),
+        "Indique la cantidad y ubicación de fuentes de poder de alimentación externa.",
+        "¿El estado físico de la fuente de poder auxiliar es óptimo?",
+        "Indique el tipo de daño, si aplica.",
+        "¿El estado de las baterías en fuente de poder auxiliar es óptimo?",
+        "¿El voltaje de NAC de fuente de poder auxiliar es óptimo?",
+        "¿Se cuenta con etiqueta de cambio o instalación de baterías de respaldo en fuente de poder auxiliar?",
+        "Observaciones",
     ]),
     ("Detectores de humo", [
-        ("¿Todos los detectores de humo o de temperatura direccionables reportan correctamente al panel?", 1, 0),
-        ("¿El estado físico de detectores de humo y temperatura es óptimo?", 1, 0),
-        ("¿Se realizaron pruebas con humo artificial a detectores de humo?", 1, 0),
-        ("¿Existen detectores autónomos de CA y baterías? Indique cantidad.", 0, 0),
-        ("Indique otras áreas si no están solamente en habitaciones.", 0, 0),
-        ("Observaciones", 0, 0),
+        "¿Todos los detectores de humo o de temperatura direccionables reportan correctamente al panel?",
+        "¿El estado físico de detectores de humo y temperatura es óptimo?",
+        "¿Se realizaron pruebas con humo artificial a detectores de humo?",
+        "¿Existen detectores autónomos de CA y baterías? Indique cantidad.",
+        "Indique otras áreas si no están solamente en habitaciones.",
+        "Observaciones",
     ]),
-    (None, [  # Detectores de gas: sin fotos específicas (todo va en observaciones)
-        ("Detectores de gas: ¿la instalación cuenta con detectores direccionados?", 0, 0),
-        ("Detectores de gas: indique su estado.", 0, 0),
-        ("Detectores de dióxido de carbono: ¿la instalación cuenta con detectores direccionados?", 0, 0),
-        ("Detectores de dióxido de carbono: indique su estado.", 0, 0),
-        ("Detectores de gas: resultados de pruebas con gas patrón, si aplica.", 0, 0),
-        ("Detectores de gas: observaciones", 0, 0),
+    (None, [  # Detectores de gas y de dióxido de carbono
+        "Detectores de gas: ¿la instalación cuenta con detectores direccionados?",
+        "Detectores de gas: indique su estado.",
+        "Detectores de dióxido de carbono: ¿la instalación cuenta con detectores direccionados?",
+        "Detectores de dióxido de carbono: indique su estado.",
+        "Detectores de gas: resultados de pruebas con gas patrón, si aplica.",
+        "Detectores de gas: observaciones",
     ]),
     ("Estaciones manuales", [
-        ("¿El estado de las estaciones manuales es óptimo?", 1, 0),
-        ("¿Se realizó prueba de activación de estaciones manuales?", 1, 0),
-        ("Observaciones", 0, 0),
+        "¿El estado de las estaciones manuales es óptimo?",
+        "¿Se realizó prueba de activación de estaciones manuales?",
+        "Observaciones",
     ]),
-    (None, [  # Módulos: no venían en la lista de fotos, se conservan igual
-        ("Módulos: indique el estado de los módulos de control.", 0, 0),
-        ("Módulos: indique el estado de los módulos de supervisión.", 0, 0),
-        ("Módulos: indique si existen módulos relay y dónde están instalados.", 0, 0),
-        ("Módulos relay: indique el resultado de la prueba, si aplica.", 0, 0),
+    (None, [  # Módulos y módulos relay
+        "Módulos: indique el estado de los módulos de control.",
+        "Módulos: indique el estado de los módulos de supervisión.",
+        "Módulos: indique si existen módulos relay y dónde están instalados.",
+        "Módulos relay: indique el resultado de la prueba, si aplica.",
     ]),
     ("Alarmas audiovisuales", [
-        ("¿El estado físico de alarmas audiovisuales es óptimo?", 1, 0),
-        ("¿La instalación de alarmas audiovisuales es correcta?", 1, 0),
-        ("¿Existe alarma en la habitación de personas con discapacidad?", 0, 0),
-        ("¿Se realizaron pruebas de activación?", 1, 0),
-        ("Observaciones", 0, 0),
+        "¿El estado físico de alarmas audiovisuales es óptimo?",
+        "¿La instalación de alarmas audiovisuales es correcta?",
+        "¿Existe alarma en la habitación de personas con discapacidad?",
+        "¿Se realizaron pruebas de activación?",
+        "Observaciones",
     ]),
 ]
 
 FIRE_GROUPS = [
     ("Tubería vertical (Risers)", [
-        ("¿La tubería se encuentra libre de corrosión visible, picaduras o desgaste?", 1, 0),
-        ("¿La tubería está libre de fugas, humedad o rastros de filtración?", 1, 0),
-        ("¿Los soportes y abrazaderas están firmes y en buen estado?", 1, 0),
-        ("¿Las válvulas del riser están identificadas correctamente?", 1, 0),
-        ("¿Las válvulas operan suavemente (abren y cierran completamente sin dificultad)?", 1, 0),
-        ("¿Las válvulas de control se encuentran supervisadas y/o aseguradas?", 0, 0),
-        ("¿El sistema mantiene presión adecuada, indique la presión?", 1, 0),
-        ("Observaciones", 0, 0),
+        "¿La tubería se encuentra libre de corrosión visible, picaduras o desgaste?",
+        "¿La tubería está libre de fugas, humedad o rastros de filtración?",
+        "¿Los soportes y abrazaderas están firmes y en buen estado?",
+        "¿Las válvulas del riser están identificadas correctamente?",
+        "¿Las válvulas operan suavemente (abren y cierran completamente sin dificultad)?",
+        "¿Las válvulas de control se encuentran supervisadas y/o aseguradas?",
+        "¿El sistema mantiene presión adecuada, indique la presión?",
+        "Observaciones",
     ]),
     ("Rociadores", [
-        ("¿Los rociadores se encuentran en buen estado físico (sin corrosión, golpes, pintura o daño visible)?", 1, 0),
-        ("¿Los rociadores están libres de obstrucciones que puedan afectar la descarga de agua?", 1, 0),
-        ("¿Los rociadores se encuentran correctamente instalados y alineados?", 1, 0),
-        ("¿Los rociadores están libres de fugas, humedad o daño en las conexiones?", 1, 0),
-        ("Observaciones", 0, 0),
+        "¿Los rociadores se encuentran en buen estado físico (sin corrosión, golpes, pintura o daño visible)?",
+        "¿Los rociadores están libres de obstrucciones que puedan afectar la descarga de agua?",
+        "¿Los rociadores se encuentran correctamente instalados y alineados?",
+        "¿Los rociadores están libres de fugas, humedad o daño en las conexiones?",
+        "Observaciones",
     ]),
     ("Red de hidrantes", [
-        ("Indique la cantidad de hidrantes. Compartir foto de evidencia con número de hidrantes ya con tarjeta de inspección nueva.", 6, 0),
-        ("¿El estado de las mangueras de hidrantes es correcto?", 1, 0),
-        ("¿Válvulas angulares se encuentran en buen estado y sin fuga?", 1, 0),
-        ("La accesibilidad al hidrante no presenta obstrucciones.", 1, 0),
-        ("¿Están completos los accesorios de hidrante (chiflón, llave spanner, manguera, señalamiento)? Si falta algún accesorio o se encuentra en mal estado indique su ubicación, qué le falta, o cuál es el daño que tiene.", 1, 0),
-        ("¿El estado de gabinetes (acrílico, soporte, pintura, bisagras y cerradura) es óptimo?", 1, 0),
-        ("¿La presión y condiciones de operación son correctas?", 1, 0),
-        ("¿Cuenta con toma siamesa? Favor de compartir fotos.", 1, 0),
-        ("Observaciones", 0, 0),
+        "Indique la cantidad de hidrantes. Compartir foto de evidencia con número de hidrantes ya con tarjeta de inspección nueva.",
+        "¿El estado de las mangueras de hidrantes es correcto?",
+        "¿Válvulas angulares se encuentran en buen estado y sin fuga?",
+        "La accesibilidad al hidrante no presenta obstrucciones.",
+        "¿Están completos los accesorios de hidrante (chiflón, llave spanner, manguera, señalamiento)? Si falta algún accesorio o se encuentra en mal estado indique su ubicación, qué le falta, o cuál es el daño que tiene.",
+        "¿El estado de gabinetes (acrílico, soporte, pintura, bisagras y cerradura) es óptimo?",
+        "¿La presión y condiciones de operación son correctas?",
+        "¿Cuenta con toma siamesa? Favor de compartir fotos.",
+        "Observaciones",
     ]),
-    ("Alimentación de agua", [  # no venía en la lista de fotos, se conserva igual
-        ("¿Se encuentra en funcionamiento la alimentación de agua del sistema?", 0, 0),
-        ("¿Se cuenta con la capacidad necesaria para el edificio? (85 mt3 mínimo)", 0, 0),
-        ("Indique el nivel de agua en la cisterna.", 0, 0),
-        ("Observaciones", 0, 0),
+    ("Alimentación de agua", [
+        "¿Se encuentra en funcionamiento la alimentación de agua del sistema?",
+        "¿Se cuenta con la capacidad necesaria para el edificio? (85 mt3 mínimo)",
+        "Indique el nivel de agua en la cisterna.",
+        "Observaciones",
     ]),
     ("Bomba diésel", [
-        ("¿Se cuenta con bomba de combustión? Enviar foto de la placa.", 1, 0),
-        ("¿La bomba de combustión está siendo monitoreada por el panel de alarmas?", 0, 0),
-        ("¿El equipo se encuentra en automático?", 0, 0),
-        ("¿La temperatura del motor diésel es adecuada, antes del arranque? Indique temperatura.", 1, 0),
-        ("¿El sistema de enfriamiento del motor diésel es funcional?", 1, 0),
-        ("¿La línea de inyección y retorno de combustible se encuentra en buenas condiciones y asegurada?", 1, 0),
-        ("¿El nivel de combustible en el tanque diésel es el adecuado, mínimo 3/4?", 1, 0),
-        ("¿Las baterías del motor diésel son funcionales? Validar con probador de baterías.", 7, 0),
-        ("Indique fecha del último cambio de baterías.", 1, 0),
-        ("¿El By-Pass del sistema de enfriamiento del motor diésel está cerrado?", 1, 0),
-        ("¿Se encuentran las válvulas del sistema de enfriamiento en su posición correcta?", 1, 0),
-        ("¿Tubería de escape se encuentra en buenas condiciones?", 2, 0),
-        ("¿Tablero de instrumentos opera correctamente?", 2, 0),
-        ("¿Los niveles de aditivos (aceite, anticongelante, y líquido en baterías) son correctos?", 1, 0),
-        ("¿El precalentador del motor diésel está funcionando?", 1, 0),
-        ("¿Al realizarse la limpieza del equipo se detectaron fugas? Indique la ubicación de las fugas encontradas.", 0, 0),
-        ("¿Realizó los 6 intentos de arranque indicados por NFPA? (de forma anual)", 0, 0),
-        ("Indique el resultado de la prueba al tablero del motor (de forma anual).", 0, 0),
-        ("¿Cuenta el equipo con línea de pruebas Venturi?", 0, 0),
-        ("Indique si se realizó la prueba de eficiencia a la bomba (de forma anual).", 0, 0),
-        ("Indique el resultado de las pruebas de arranque de la bomba diésel.", 10, 0),
+        "¿Se cuenta con bomba de combustión? Enviar foto de la placa.",
+        "¿La bomba de combustión está siendo monitoreada por el panel de alarmas?",
+        "¿El equipo se encuentra en automático?",
+        "¿La temperatura del motor diésel es adecuada, antes del arranque? Indique temperatura.",
+        "¿El sistema de enfriamiento del motor diésel es funcional?",
+        "¿La línea de inyección y retorno de combustible se encuentra en buenas condiciones y asegurada?",
+        "¿El nivel de combustible en el tanque diésel es el adecuado, mínimo 3/4?",
+        "¿Las baterías del motor diésel son funcionales? Validar con probador de baterías.",
+        "Indique fecha del último cambio de baterías.",
+        "¿El By-Pass del sistema de enfriamiento del motor diésel está cerrado?",
+        "¿Se encuentran las válvulas del sistema de enfriamiento en su posición correcta?",
+        "¿Tubería de escape se encuentra en buenas condiciones?",
+        "¿Tablero de instrumentos opera correctamente?",
+        "¿Los niveles de aditivos (aceite, anticongelante, y líquido en baterías) son correctos?",
+        "¿El precalentador del motor diésel está funcionando?",
+        "¿Al realizarse la limpieza del equipo se detectaron fugas? Indique la ubicación de las fugas encontradas.",
+        "¿Realizó los 6 intentos de arranque indicados por NFPA? (de forma anual)",
+        "Indique el resultado de la prueba al tablero del motor (de forma anual).",
+        "¿Cuenta el equipo con línea de pruebas Venturi?",
+        "Indique si se realizó la prueba de eficiencia a la bomba (de forma anual).",
+        "Indique el resultado de las pruebas de arranque de la bomba diésel.",
     ]),
     ("Bomba eléctrica", [
-        ("¿Se cuenta con bomba eléctrica principal? Enviar foto de la placa.", 3, 0),
-        ("¿El estado de la bomba eléctrica es óptimo?", 1, 0),
-        ("¿La bomba eléctrica está monitoreada desde el panel de alarmas?", 1, 0),
-        ("¿El controlador de la bomba eléctrica está funcionando?", 1, 0),
-        ("Indique el dato de GPM de la bomba. Validar en la placa de la bomba.", 1, 0),
-        ("Indique el dato de PSI de la bomba. Validar en la placa de la bomba.", 1, 0),
-        ("Indique el dato de HP de la bomba. Validar en la placa de la bomba.", 1, 0),
-        ("¿La bomba eléctrica de incendios está en automático?", 1, 0),
-        ("Indique el estado del motor eléctrico.", 0, 0),
-        ("Indique si el enfriamiento del motor es el adecuado. (En caso de aceite indique el nivel)", 0, 0),
-        ("¿Cuenta con válvula de alivio a la descarga de la bomba?", 0, 0),
-        ("Indique el resultado de las pruebas de arranque y problema a la bomba eléctrica.", 1, 0),
+        "¿Se cuenta con bomba eléctrica principal? Enviar foto de la placa.",
+        "¿El estado de la bomba eléctrica es óptimo?",
+        "¿La bomba eléctrica está monitoreada desde el panel de alarmas?",
+        "¿El controlador de la bomba eléctrica está funcionando?",
+        "Indique el dato de GPM de la bomba. Validar en la placa de la bomba.",
+        "Indique el dato de PSI de la bomba. Validar en la placa de la bomba.",
+        "Indique el dato de HP de la bomba. Validar en la placa de la bomba.",
+        "¿La bomba eléctrica de incendios está en automático?",
+        "Indique el estado del motor eléctrico.",
+        "Indique si el enfriamiento del motor es el adecuado. (En caso de aceite indique el nivel)",
+        "¿Cuenta con válvula de alivio a la descarga de la bomba?",
+        "Indique el resultado de las pruebas de arranque y problema a la bomba eléctrica.",
     ]),
     ("Bomba jockey", [
-        ("¿Se cuenta con bomba jockey? Enviar foto de la placa.", 1, 0),
-        ("¿El estado de la bomba jockey es óptimo?", 1, 0),
-        ("¿El controlador de la bomba jockey está funcionando?", 1, 0),
-        ("¿La bomba jockey está en automático?", 1, 0),
-        ("Indique los hallazgos al realizar la limpieza de bomba jockey y su controlador.", 0, 0),
-        ("Indique el funcionamiento de bomba jockey en manual y en automático.", 0, 0),
-        ("Indique el resultado de las pruebas de arranque y problema a la bomba jockey.", 10, 1),
+        "¿Se cuenta con bomba jockey? Enviar foto de la placa.",
+        "¿El estado de la bomba jockey es óptimo?",
+        "¿El controlador de la bomba jockey está funcionando?",
+        "¿La bomba jockey está en automático?",
+        "Indique los hallazgos al realizar la limpieza de bomba jockey y su controlador.",
+        "Indique el funcionamiento de bomba jockey en manual y en automático.",
+        "Indique el resultado de las pruebas de arranque y problema a la bomba jockey.",
     ]),
     ("Cuarto de bombas", [
-        ("¿Temperatura y humedad del cuarto de bombas es aceptable para permanecer en el interior?", 1, 0),
-        ("¿Es adecuada la ventilación del cuarto de bombas?", 1, 0),
-        ("¿Las válvulas de succión y descarga de las bombas están abiertas, aseguradas o supervisadas?", 4, 0),
-        ("¿Las condiciones de tuberías de succión, descarga, válvulas y retorno a tanque cisterna o reserva de agua son óptimas?", 1, 0),
-        ("Observaciones", 0, 0),
+        "¿Temperatura y humedad del cuarto de bombas es aceptable para permanecer en el interior?",
+        "¿Es adecuada la ventilación del cuarto de bombas?",
+        "¿Las válvulas de succión y descarga de las bombas están abiertas, aseguradas o supervisadas?",
+        "¿Las condiciones de tuberías de succión, descarga, válvulas y retorno a tanque cisterna o reserva de agua son óptimas?",
+        "Observaciones",
     ]),
 ]
 
 KITCHEN_GROUPS = [
     (None, [
-        ("¿Cuántos sistemas de supresión de cocina están instalados?", 1, 0),
-        ("¿Cuántos tanques por sistema están instalados?", 10, 0),
-        ("¿Cuál es la capacidad de los tanques instalados?", 1, 0),
-        ("¿El sistema de supresión de incendios en cocina está en operación?", 1, 0),
-        ("¿Se cuenta con válvulas de corte de gas?", 1, 0),
-        ("¿El estado de las válvulas de corte de gas es óptimo?", 1, 0),
-        ("¿Cuál es el diámetro de las válvulas de corte de gas?", 1, 0),
-        ("¿El estado de los cilindros y sus conexiones son óptimos?", 6, 0),
-        ("¿El estado de las boquillas de descarga es óptimo y se encuentran alineadas?", 4, 0),
-        ("¿El estado de las estaciones manuales del sistema de supresión de cocina es óptimo?", 4, 0),
-        ("¿Cuentan con su testigo las estaciones manuales?", 4, 0),
-        ("¿Cuentan con sus tapones las boquillas?", 4, 0),
-        ("¿El estado de la instalación del sistema de supresión de cocina es óptimo?", 4, 0),
-        ("Verifique el estado del cartucho de nitrógeno, indique peso y fecha de prueba hidrostática.", 0, 0),
-        ("Verifique el estado del tanque de Ansulex (indique su hermeticidad y sello).", 0, 0),
-        ("¿Se realizó el cambio de los fusibles?", 0, 0),
-        ("Indique el resultado de las pruebas de activación sin descarga.", 0, 0),
-        ("Observaciones", 0, 0),
+        "¿Cuántos sistemas de supresión de cocina están instalados?",
+        "¿Cuántos tanques por sistema están instalados?",
+        "¿Cuál es la capacidad de los tanques instalados?",
+        "¿El sistema de supresión de incendios en cocina está en operación?",
+        "¿Se cuenta con válvulas de corte de gas?",
+        "¿El estado de las válvulas de corte de gas es óptimo?",
+        "¿Cuál es el diámetro de las válvulas de corte de gas?",
+        "¿El estado de los cilindros y sus conexiones son óptimos?",
+        "¿El estado de las boquillas de descarga es óptimo y se encuentran alineadas?",
+        "¿El estado de las estaciones manuales del sistema de supresión de cocina es óptimo?",
+        "¿Cuentan con su testigo las estaciones manuales?",
+        "¿Cuentan con sus tapones las boquillas?",
+        "¿El estado de la instalación del sistema de supresión de cocina es óptimo?",
+        "Verifique el estado del cartucho de nitrógeno, indique peso y fecha de prueba hidrostática.",
+        "Verifique el estado del tanque de Ansulex (indique su hermeticidad y sello).",
+        "¿Se realizó el cambio de los fusibles?",
+        "Indique el resultado de las pruebas de activación sin descarga.",
+        "Observaciones",
     ]),
 ]
 
 
 def _build_questions(groups):
-    """Convierte los grupos en la lista de preguntas y sus reglas de medios."""
-    questions, rules = [], {}
+    """Convierte los grupos en la lista de preguntas."""
+    questions = []
     for prefix, items in groups:
-        for text, photos, videos in items:
-            full = "%s: %s" % (prefix, text) if prefix else text
-            questions.append(full)
-            if photos or videos:
-                rules[full] = (photos, videos)
-    return questions, rules
+        for text in items:
+            questions.append("%s: %s" % (prefix, text) if prefix else text)
+    return questions
 
 
 SECTION_QUESTIONS = {
@@ -287,23 +289,19 @@ SECTION_QUESTIONS = {
     ],
 }
 
-MEDIA_RULES = {}
-for _section, _groups in (
-    ("alarm_inspection", ALARM_GROUPS),
-    ("fire_protection", FIRE_GROUPS),
-    ("kitchen_suppression", KITCHEN_GROUPS),
-):
-    _questions, _rules = _build_questions(_groups)
-    SECTION_QUESTIONS[_section] = _questions
-    MEDIA_RULES.update(_rules)
+MEDIA_SECTIONS = ("alarm_inspection", "fire_protection", "kitchen_suppression")
+
+for _section, _groups in zip(MEDIA_SECTIONS, (ALARM_GROUPS, FIRE_GROUPS, KITCHEN_GROUPS)):
+    SECTION_QUESTIONS[_section] = _build_questions(_groups)
 
 
-def _media_vals(question):
-    photos, videos = MEDIA_RULES.get(question, (0, 0))
+def _media_vals(section, question):
+    if section not in MEDIA_SECTIONS:
+        return {"media_rule": False, "photo_limit": 0, "video_limit": 0}
     return {
-        "media_rule": bool(photos or videos),
-        "photo_limit": photos,
-        "video_limit": videos,
+        "media_rule": True,
+        "photo_limit": PHOTO_LIMIT,
+        "video_limit": VIDEO_RULES.get(question.split(": ", 1)[-1], 0),
     }
 
 
@@ -477,7 +475,7 @@ class ServicioInspeccion(models.Model):
                         "sequence": index,
                         "question": question,
                         "answer_type": "rating" if question in RATING_QUESTIONS else "text",
-                        **_media_vals(question),
+                        **_media_vals(section, question),
                     }
                     for index, question in enumerate(questions, 1)
                 ])
@@ -552,7 +550,6 @@ class ServicioInspeccionItem(models.Model):
         "attachment_id",
         string="Fotos DESPUÉS",
     )
-    media_hint = fields.Char(string="Fotos permitidas", compute="_compute_media_hint")
     note = fields.Text(string="Nota")
     attachment_ids = fields.Many2many(
         "ir.attachment",
@@ -567,29 +564,6 @@ class ServicioInspeccionItem(models.Model):
         images = len(attachments.filtered(lambda a: (a.mimetype or "").startswith("image/")))
         videos = len(attachments.filtered(lambda a: (a.mimetype or "").startswith("video/")))
         return images, videos
-
-    @api.depends(
-        "media_rule", "photo_limit", "video_limit",
-        "attachment_before_ids", "attachment_after_ids",
-    )
-    def _compute_media_hint(self):
-        for item in self:
-            if not item.media_rule:
-                item.media_hint = False
-                continue
-            zones = []
-            for label, atts in (
-                ("Antes", item.attachment_before_ids),
-                ("Después", item.attachment_after_ids),
-            ):
-                images, videos = self._count_media(atts)
-                parts = []
-                if item.photo_limit:
-                    parts.append("%d/%d fotos" % (images, item.photo_limit))
-                if item.video_limit:
-                    parts.append("%d/%d video" % (videos, item.video_limit))
-                zones.append("%s: %s" % (label, " + ".join(parts)))
-            item.media_hint = " · ".join(zones)
 
     @api.constrains("attachment_before_ids", "attachment_after_ids")
     def _check_media_limits(self):
