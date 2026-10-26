@@ -35,7 +35,7 @@
                 </div>
             </t>
             <t t-else="">
-                <div class="att-file">Archivo adjunto: <t t-out="att.name"/></div>
+                <div class="att-file">Archivo adjunto: <a t-att-href="file_url(att)"><t t-out="att.name"/></a></div>
             </t>
         </t>
     </template>
