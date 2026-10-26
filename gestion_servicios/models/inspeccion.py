@@ -722,7 +722,7 @@ class ReportInspeccion(models.AbstractModel):
             """Enlace al archivo (videos, PDF, etc.); se abre sin iniciar sesión."""
             att = attachment.sudo()
             token = att.generate_access_token()[0]
-            return "%s/web/content/%s?access_token=%s" % (base_url, att.id, token)
+            return "%s/web/content/%s?access_token=%s&download=true" % (base_url, att.id, token)
 
         return {
             "doc_ids": docids,
