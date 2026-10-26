@@ -717,6 +717,13 @@ class ReportInspeccion(models.AbstractModel):
             token = att.generate_access_token()[0]
             return "%s/web/image/%s?access_token=%s" % (base_url, att.id, token)
 
+        
+        def file_url(attachment):
+            """Enlace al archivo (videos, PDF, etc.); se abre sin iniciar sesión."""
+            att = attachment.sudo()
+            token = att.generate_access_token()[0]
+            return "%s/web/content/%s?access_token=%s" % (base_url, att.id, token)
+
         return {
             "doc_ids": docids,
             "doc_model": "servicio.inspeccion",
@@ -726,6 +733,7 @@ class ReportInspeccion(models.AbstractModel):
             "is_image": _is_image,
             "image_uri": image_uri,
             "photo_url": photo_url,
+            "file_url": file_url,
             "signature_uri": _signature_uri,
         }
 
