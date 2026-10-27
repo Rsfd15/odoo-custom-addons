@@ -12,29 +12,29 @@ from odoo.tools.mimetypes import guess_mimetype
 
 _logger = logging.getLogger(__name__)
 
-NOMINATIM_URL = "https://nomination.openstreetmap.org/reverse"
+NOMINATIM_URL = "https://nominatim.openstreetmap.org/reverse"
 
 
-def _fromat_address(data):
-    """Arma 'Lugar, Calle Numero, Colonia, Ciudad, Estado, CP' con la respuesta de OpenStreetMap."""
+def _format_address(data):
+    """Arma 'Lugar, Calle Número, Colonia, Ciudad, Estado, CP' con la respuesta de OpenStreetMap."""
     addr = data.get("address") or {}
     name = data.get("name")
     if name == addr.get("road"):
-        name = False # el "nombre" es la misma calle
-        street = " ".join(p for p in (addr.get("road"),
-    addr.get("house_number")) if p)
-        parts = [
-            name,
-            street,
-            addr.get("neighbourhood") or 
-            addr.get("suburb") or addr.get("quarter"),
-            addr.get("state"),
-            addr.get("postcode"),
-        ]
-        result = []
-        for part in parts:
-            if part and part not in result: result.append(part) 
-            return ", ".join(result) or data.get("display_name") or False
+        name = False  # el "nombre" es la misma calle
+    street = " ".join(p for p in (addr.get("road"), addr.get("house_number")) if p)
+    parts = [
+        name,
+        street,
+        addr.get("neighbourhood") or addr.get("suburb") or addr.get("quarter"),
+        addr.get("city") or addr.get("town") or addr.get("village") or addr.get("municipality"),
+        addr.get("state"),
+        addr.get("postcode"),
+    ]
+    result = []
+    for part in parts:
+        if part and part not in result:
+            result.append(part)
+    return ", ".join(result) or data.get("display_name") or False
 
 
 SECTION_SELECTION = [
