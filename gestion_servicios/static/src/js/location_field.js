@@ -1,77 +1,72 @@
-import { _t } from "@web/core/l10n/translation";
-import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
-import { CharField, charField } from "@web/views/fields/char/char_field";
-import { onMounted, onWillUnmount, useRef } from "@odoo/owl";
+// Campo "Ubicación" (class="o_geo_location" en la vista): al tocarlo vacío,
+// pide el GPS del teléfono y escribe el nombre del lugar (calle, número, colonia, ciudad).
 
-// Campo "Ubicación": al tocarlo vacío, pide el GPS del teléfono y escribe
-// el nombre del lugar (calle, número, colonia, ciudad).
-export class GeoLocationField extends CharField {
-    setup() {
-        super.setup();
-        this.orm = useService("orm");
-        this.notification = useService("notification");
-        this.geoInput = useRef("input");
-        this.locating = false;
-        this.onFocus = this.onFocus.bind(this);
-        onMounted(() => this.geoInput.el?.addEventListener("focus", this.onFocus));
-        onWillUnmount(() => this.geoInput.el?.removeEventListener("focus", this.onFocus));
+function setStatus(input, text) {
+    input.placeholder = text;
+}
+
+function fillLocation(input, address) {
+    if (input.value) {
+        return; // el técnico ya escribió algo mientras tanto
     }
+    input.value = address;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+}
 
-    hasValue() {
-        return Boolean(this.props.record.data[this.props.name] || this.geoInput.el?.value);
-    }
-
-    onFocus() {
-        if (this.props.readonly || this.locating || this.hasValue()) {
-            return;
+async function onPosition(input, position) {
+    const params = new URLSearchParams({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+    });
+    try {
+        const response = await fetch(`/gestion_servicios/reverse_geocode?${params}`, {
+            credentials: "same-origin",
+        });
+        const data = response.ok ? await response.json() : {};
+        if (data.address) {
+            setStatus(input, input.dataset.geoPlaceholder);
+            fillLocation(input, data.address);
+        } else {
+            setStatus(input, "No se encontró el nombre del lugar. Escríbelo a mano.");
         }
-        if (!navigator.geolocation) {
-            this.notification.add(_t("Este dispositivo no permite obtener la ubicación."), {
-                type: "warning",
-            });
-            return;
-        }
-        this.locating = true;
-        this.notification.add(_t("Buscando tu ubicación…"), { type: "info" });
-        navigator.geolocation.getCurrentPosition(
-            (position) => this.onPosition(position),
-            (error) => this.onError(error),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
-        );
-    }
-
-    async onPosition(position) {
-        try {
-            const address = await this.orm.call("servicio.inspeccion", "reverse_geocode", [
-                position.coords.latitude,
-                position.coords.longitude,
-            ]);
-            if (!address) {
-                this.notification.add(
-                    _t("No se encontró el nombre del lugar. Escríbelo a mano."),
-                    { type: "warning" }
-                );
-            } else if (!this.hasValue()) {
-                // Si el técnico ya escribió algo mientras tanto, no se lo borramos
-                await this.props.record.update({ [this.props.name]: address });
-            }
-        } finally {
-            this.locating = false;
-        }
-    }
-
-    onError(error) {
-        this.locating = false;
-        const message =
-            error.code === error.PERMISSION_DENIED
-                ? _t("Permiso de ubicación denegado. Actívalo en el navegador y vuelve a tocar el campo.")
-                : _t("No se pudo obtener la ubicación. Intenta de nuevo o escríbela a mano.");
-        this.notification.add(message, { type: "warning" });
+    } catch {
+        setStatus(input, "No se pudo obtener la dirección. Intenta de nuevo o escríbela a mano.");
+    } finally {
+        delete input.dataset.geoLocating;
     }
 }
 
-registry.category("fields").add("geo_location_char", {
-    ...charField,
-    component: GeoLocationField,
+function onError(input, error) {
+    delete input.dataset.geoLocating;
+    setStatus(
+        input,
+        error.code === error.PERMISSION_DENIED
+            ? "Permiso de ubicación denegado. Actívalo en el navegador y vuelve a tocar aquí."
+            : "No se pudo obtener la ubicación. Intenta de nuevo o escríbela a mano."
+    );
+}
+
+document.addEventListener("focusin", (ev) => {
+    const input = ev.target;
+    if (!(input instanceof HTMLInputElement) || !input.closest(".o_geo_location")) {
+        return;
+    }
+    if (input.value || input.readOnly || input.dataset.geoLocating) {
+        return;
+    }
+    if (!("geoPlaceholder" in input.dataset)) {
+        input.dataset.geoPlaceholder = input.placeholder;
+    }
+    if (!navigator.geolocation) {
+        setStatus(input, "Este dispositivo no permite obtener la ubicación.");
+        return;
+    }
+    input.dataset.geoLocating = "1";
+    setStatus(input, "Buscando tu ubicación…");
+    navigator.geolocation.getCurrentPosition(
+        (position) => onPosition(input, position),
+        (error) => onError(input, error),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+    );
 });
