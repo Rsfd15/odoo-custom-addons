@@ -1,11 +1,40 @@
 import base64
+import logging
 import os
+
+import requests
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.binary import BinaryBytes
 from odoo.tools.image import image_process
 from odoo.tools.mimetypes import guess_mimetype
+
+_logger = logging.getLogger(__name__)
+
+NOMINATIM_URL = "https://nominatim.openstreetmap.org/reverse"
+
+
+def _format_address(data):
+    """Arma 'Lugar, Calle Número, Colonia, Ciudad, Estado, CP' con la respuesta de OpenStreetMap."""
+    addr = data.get("address") or {}
+    name = data.get("name")
+    if name == addr.get("road"):
+        name = False  # el "nombre" es la misma calle
+    street = " ".join(p for p in (addr.get("road"), addr.get("house_number")) if p)
+    parts = [
+        name,
+        street,
+        addr.get("neighbourhood") or addr.get("suburb") or addr.get("quarter"),
+        addr.get("city") or addr.get("town") or addr.get("village") or addr.get("municipality"),
+        addr.get("state"),
+        addr.get("postcode"),
+    ]
+    result = []
+    for part in parts:
+        if part and part not in result:
+            result.append(part)
+    return ", ".join(result) or data.get("display_name") or False
 
 
 SECTION_SELECTION = [
@@ -344,6 +373,35 @@ class ServicioInspeccion(models.Model):
     report_type = fields.Char(string="Tipo de reporte", required=True)
     customer_id = fields.Many2one("res.partner", string="Cliente", required=True)
     location = fields.Char(string="Ubicación", required=True)
+    
+    @api.model
+    def reverse_geocode(self, latitude, longitude):
+        """Nombre del lugar a partir de las coordenadas GPS del teléfono (OpenStreetMap)."""
+        try:
+            params = {
+                "format": "jsonv2",
+                "lat": float(latitude),
+                "lon": float(longitude),
+                "zoom": 18,
+                "addressdetails": 1,
+                "accept-language": "es",
+            }
+        except (TypeError, ValueError):
+            return False
+        try:
+            response = requests.get(
+                NOMINATIM_URL,
+                params=params,
+                headers={"User-Agent": "gestion_servicios Odoo (%s)" % self.get_base_url()},
+                timeout=10,
+            )
+            response.raise_for_status()
+            data = response.json()
+        except (requests.RequestException, ValueError):
+            _logger.warning("No se pudo obtener la dirección de %s, %s", latitude, longitude, exc_info=True)
+            return False
+        return _format_address(data)
+
     inspection_date = fields.Date(string="Fecha de realización", default=fields.Date.context_today)
     technician_id = fields.Many2one(
         "res.users", string="Nombre del técnico", default=lambda self: self.env.user, required=True

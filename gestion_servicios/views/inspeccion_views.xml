@@ -51,7 +51,7 @@
                         <separator string="1. Detalle del servicio"/>
                         <field name="report_type"/>
                         <field name="customer_id"/>
-                        <field name="location"/>
+                        <field name="location" class="o_geo_location" placeholder="Toca aquí para detectar tu ubicación"/>
                         <field name="inspection_date"/>
                         <field name="technician_id"/>
                         <field name="customer_representative"/>

@@ -1,6 +1,6 @@
 {
     "name": "Gestión de Inspecciones y Servicios",
-    "version": "20.0.1.0.2",
+    "version": "20.0.1.0.4",
     "summary": "Reportes de inspección y mantenimiento de equipos",
     "description": """
         Gestión de reportes de inspección de sistemas contra incendio,
@@ -20,6 +20,7 @@
     "assets": {
         "web.assets_backend": [
             "gestion_servicios/static/src/scss/inspeccion.scss",
+            "gestion_servicios/static/src/js/location_field.js",
         ],
     },
     "application": True,
