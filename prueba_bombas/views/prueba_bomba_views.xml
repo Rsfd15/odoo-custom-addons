@@ -32,7 +32,7 @@
                 <field name="serial_number"/>
                 <filter name="draft" string="Borrador" domain="[('state', '=', 'draft')]"/>
                 <filter name="done" string="Finalizadas" domain="[('state', '=', 'done')]"/>
-                <group expand="0" string="Agrupar por">
+                <group>
                     <filter name="group_customer" string="Cliente" context="{'group_by': 'customer_id'}"/>
                     <filter name="group_date" string="Fecha" context="{'group_by': 'test_date'}"/>
                 </group>
@@ -49,11 +49,11 @@
                     <button name="action_mark_done" type="object" string="Finalizar prueba"
                             class="btn-success" invisible="state == 'done'"/>
                     <button name="action_preview_report" type="object" string="Vista previa"
-                            icon="fa-eye"/>
+                            icon="visibility"/>
                     <button name="action_download_report" type="object" string="Descargar PDF"
-                            icon="fa-download" class="btn-primary"/>
+                            icon="download" class="btn-primary"/>
                     <button name="action_send_email" type="object" string="Enviar por correo"
-                            icon="fa-envelope" class="btn-primary" invisible="state != 'done'"/>
+                            icon="mail" class="btn-primary" invisible="state != 'done'"/>
                     <button name="action_reset_draft" type="object" string="Volver a borrador"
                             invisible="state != 'done'"/>
                     <field name="state" widget="statusbar"/>

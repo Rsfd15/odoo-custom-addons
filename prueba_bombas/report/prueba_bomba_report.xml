@@ -19,7 +19,6 @@
         <field name="model">bomba.prueba</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">prueba_bombas.report_prueba_bomba_document</field>
-        <field name="report_file">prueba_bombas.report_prueba_bomba_document</field>
         <field name="print_report_name">'Prueba-Bomba-%s' % (object.name or 'reporte')</field>
         <field name="paperformat_id" ref="paperformat_prueba_bomba"/>
         <field name="binding_model_id" ref="model_bomba_prueba"/>
@@ -32,7 +31,6 @@
         <field name="model">bomba.prueba</field>
         <field name="report_type">qweb-html</field>
         <field name="report_name">prueba_bombas.report_prueba_bomba_document</field>
-        <field name="report_file">prueba_bombas.report_prueba_bomba_document</field>
         <field name="paperformat_id" ref="paperformat_prueba_bomba"/>
     </record>
 
@@ -70,44 +68,44 @@
                     <table>
                         <tr>
                             <td class="fp-lbl" style="width:8%;">Account:</td>
-                            <td class="fp-val" style="width:16%;"><t t-esc="o.account or ''"/></td>
+                            <td class="fp-val" style="width:16%;"><t t-out="o.account or ''"/></td>
                             <td colspan="10" class="fp-title" style="border:none;">
                                 RESULTADOS DE PRUEBA DE BOMBA CONTRAINCENDIO NETO / FIRE PUMP TEST RESULTS ON NET BASIS
                             </td>
                         </tr>
                         <tr>
                             <td class="fp-lbl">Location:</td>
-                            <td class="fp-val"><t t-esc="o.location"/></td>
+                            <td class="fp-val"><t t-out="o.location"/></td>
                             <td class="fp-lbl">Pump ID:</td>
-                            <td class="fp-val"><t t-esc="o.pump_type or ''"/></td>
+                            <td class="fp-val"><t t-out="o.pump_type or ''"/></td>
                             <td class="fp-lbl">Rated Flow:</td>
-                            <td class="fp-val"><t t-esc="'{:,.0f}'.format(o.rated_flow)"/></td>
+                            <td class="fp-val"><t t-out="'{:,.0f}'.format(o.rated_flow)"/></td>
                             <td class="fp-lbl">Rated Pressure:</td>
-                            <td class="fp-val"><t t-esc="'%.0f' % o.rated_pressure"/></td>
+                            <td class="fp-val"><t t-out="'%.0f' % o.rated_pressure"/></td>
                             <td class="fp-lbl">Rated Speed:</td>
-                            <td class="fp-val"><t t-esc="'%.0f' % o.rated_speed"/></td>
+                            <td class="fp-val"><t t-out="'%.0f' % o.rated_speed"/></td>
                             <td class="fp-lbl">Suction Size (in.):</td>
-                            <td class="fp-val"><t t-esc="'%g' % o.suction_size"/></td>
+                            <td class="fp-val"><t t-out="'%g' % o.suction_size"/></td>
                         </tr>
                         <tr>
                             <td class="fp-lbl">Inspection #</td>
-                            <td class="fp-val"><t t-esc="o.inspection_number or ''"/></td>
+                            <td class="fp-val"><t t-out="o.inspection_number or ''"/></td>
                             <td class="fp-lbl">Make:</td>
-                            <td class="fp-val"><t t-esc="o.pump_make or ''"/></td>
+                            <td class="fp-val"><t t-out="o.pump_make or ''"/></td>
                             <td class="fp-lbl">Model:</td>
-                            <td class="fp-val" colspan="3"><t t-esc="o.pump_model or ''"/></td>
+                            <td class="fp-val" colspan="3"><t t-out="o.pump_model or ''"/></td>
                             <td class="fp-lbl">Serial No.:</td>
-                            <td class="fp-val"><t t-esc="o.serial_number or ''"/></td>
+                            <td class="fp-val"><t t-out="o.serial_number or ''"/></td>
                             <td class="fp-lbl">Discharge Size (in.):</td>
-                            <td class="fp-val"><t t-esc="'%g' % o.discharge_size"/></td>
+                            <td class="fp-val"><t t-out="'%g' % o.discharge_size"/></td>
                         </tr>
                         <tr>
                             <td class="fp-lbl">Cliente:</td>
-                            <td class="fp-val" colspan="3"><t t-esc="o.customer_id.name"/></td>
+                            <td class="fp-val" colspan="3"><t t-out="o.customer_id.name"/></td>
                             <td class="fp-lbl">Reporte:</td>
-                            <td class="fp-val"><t t-esc="o.name"/></td>
+                            <td class="fp-val"><t t-out="o.name"/></td>
                             <td class="fp-lbl">Técnico:</td>
-                            <td class="fp-val" colspan="3"><t t-esc="o.technician_id.name or ''"/></td>
+                            <td class="fp-val" colspan="3"><t t-out="o.technician_id.name or ''"/></td>
                             <td class="fp-lbl">Accionamiento:</td>
                             <td class="fp-val"><span t-field="o.driver_type"/></td>
                         </tr>
@@ -145,31 +143,31 @@
                         <t t-foreach="readings" t-as="r">
                             <tr class="fp-data">
                                 <td t-if="r_first" class="fp-date" t-att-rowspan="len(readings)">
-                                    <t t-esc="o.test_date.strftime('%d %m %Y')"/>
+                                    <t t-out="o.test_date.strftime('%d %m %Y')"/>
                                 </td>
-                                <td><t t-esc="r.outlet_label()"/></td>
-                                <td><t t-esc="'%.2f' % r.cd"/></td>
-                                <td><t t-esc="('%g' % r.pitot_1) if r.pitot_1 else 'N/A'"/></td>
-                                <td><t t-esc="('%g' % r.pitot_2) if r.pitot_2 else 'N/A'"/></td>
-                                <td><t t-esc="('%g' % r.pitot_3) if r.pitot_3 else 'N/A'"/></td>
-                                <td><t t-esc="('%g' % r.pitot_4) if r.pitot_4 else 'N/A'"/></td>
-                                <td><t t-esc="('%g' % r.pitot_5) if r.pitot_5 else 'N/A'"/></td>
-                                <td><t t-esc="('%g' % r.pitot_6) if r.pitot_6 else 'N/A'"/></td>
-                                <td><t t-esc="('%g' % r.pitot_7) if r.pitot_7 else 'N/A'"/></td>
-                                <td><t t-esc="('%g' % r.pitot_8) if r.pitot_8 else 'N/A'"/></td>
-                                <td><t t-esc="'{:,.0f}'.format(r.flowmeter_gpm)"/></td>
-                                <td><t t-esc="'{:,.0f}'.format(r.combined_flow)"/></td>
-                                <td><t t-esc="'%g' % round(r.suction_psi, 1)"/></td>
-                                <td><t t-esc="'%g' % round(r.discharge_psi, 1)"/></td>
-                                <td><t t-esc="'%.1f' % r.velocity_head"/></td>
-                                <td><t t-esc="'%.0f' % r.net_pressure"/></td>
-                                <td><t t-esc="'%.0f' % r.pump_speed"/></td>
-                                <td><t t-esc="'{:,.0f}'.format(r.corrected_flow)"/></td>
-                                <td><t t-esc="'%.0f' % r.corrected_pressure"/></td>
-                                <td><t t-esc="'%.0f' % r.volts if r.volts else ''"/></td>
-                                <td><t t-esc="'%.1f' % r.amps if r.amps else ''"/></td>
+                                <td><t t-out="r.outlet_label()"/></td>
+                                <td><t t-out="'%.2f' % r.cd"/></td>
+                                <td><t t-out="('%g' % r.pitot_1) if r.pitot_1 else 'N/A'"/></td>
+                                <td><t t-out="('%g' % r.pitot_2) if r.pitot_2 else 'N/A'"/></td>
+                                <td><t t-out="('%g' % r.pitot_3) if r.pitot_3 else 'N/A'"/></td>
+                                <td><t t-out="('%g' % r.pitot_4) if r.pitot_4 else 'N/A'"/></td>
+                                <td><t t-out="('%g' % r.pitot_5) if r.pitot_5 else 'N/A'"/></td>
+                                <td><t t-out="('%g' % r.pitot_6) if r.pitot_6 else 'N/A'"/></td>
+                                <td><t t-out="('%g' % r.pitot_7) if r.pitot_7 else 'N/A'"/></td>
+                                <td><t t-out="('%g' % r.pitot_8) if r.pitot_8 else 'N/A'"/></td>
+                                <td><t t-out="'{:,.0f}'.format(r.flowmeter_gpm)"/></td>
+                                <td><t t-out="'{:,.0f}'.format(r.combined_flow)"/></td>
+                                <td><t t-out="'%g' % round(r.suction_psi, 1)"/></td>
+                                <td><t t-out="'%g' % round(r.discharge_psi, 1)"/></td>
+                                <td><t t-out="'%.1f' % r.velocity_head"/></td>
+                                <td><t t-out="'%.0f' % r.net_pressure"/></td>
+                                <td><t t-out="'%.0f' % r.pump_speed"/></td>
+                                <td><t t-out="'{:,.0f}'.format(r.corrected_flow)"/></td>
+                                <td><t t-out="'%.0f' % r.corrected_pressure"/></td>
+                                <td><t t-out="'%.0f' % r.volts if r.volts else ''"/></td>
+                                <td><t t-out="'%.1f' % r.amps if r.amps else ''"/></td>
                                 <td t-att-class="'fp-ok' if r.plate_evaluation == 'pass' else ('fp-bad' if r.plate_evaluation == 'fail' else '')">
-                                    <t t-esc="('%.1f' % r.plate_pct) + ' %' if r.plate_evaluation != 'na' else '—'"/>
+                                    <t t-out="('%.1f' % r.plate_pct) + ' %' if r.plate_evaluation != 'na' else '—'"/>
                                 </td>
                             </tr>
                         </t>
@@ -199,7 +197,7 @@
                             </tr>
                             <tr>
                                 <td class="fp-lbl">
-                                    Puntos corregidos ≥ <t t-esc="'%g' % o.acceptance_pct"/> % de la curva de placa
+                                    Puntos corregidos ≥ <t t-out="'%g' % o.acceptance_pct"/> % de la curva de placa
                                 </td>
                                 <td><span t-field="o.plate_check"/></td>
                                 <td class="fp-lbl">RESULTADO</td>
@@ -211,23 +209,23 @@
 
                         <t t-if="o.observations">
                             <div class="fp-sec">OBSERVACIONES</div>
-                            <div class="fp-box"><t t-esc="o.observations"/></div>
+                            <div class="fp-box"><t t-out="o.observations"/></div>
                         </t>
                         <t t-if="o.recommendations">
                             <div class="fp-sec">RECOMENDACIONES</div>
-                            <div class="fp-box"><t t-esc="o.recommendations"/></div>
+                            <div class="fp-box"><t t-out="o.recommendations"/></div>
                         </t>
 
                         <table class="fp-sign">
                             <tr>
                                 <td style="width:50%;">
                                     <span>
-                                        <t t-esc="o.technician_id.name or ''"/><br/>Realizó (técnico)
+                                        <t t-out="o.technician_id.name or ''"/><br/>Realizó (técnico)
                                     </span>
                                 </td>
                                 <td>
                                     <span>
-                                        <t t-esc="o.received_by or o.customer_representative or ''"/><br/>Recibió (cliente)
+                                        <t t-out="o.received_by or o.customer_representative or ''"/><br/>Recibió (cliente)
                                     </span>
                                 </td>
                             </tr>
