@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_bomba_prueba_user,bomba.prueba.user,bomba.prueba,base.group_user,crud,
+access_bomba_prueba_lectura_user,bomba.prueba.lectura.user,bomba.prueba.lectura,base.group_user,crud,
+access_bomba_prueba_placa_user,bomba.prueba.placa.user,bomba.prueba.placa,base.group_user,crud,

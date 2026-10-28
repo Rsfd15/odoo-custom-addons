@@ -1,6 +1,6 @@
 {
     "name": "Pruebas de Bombas Contra Incendios",
-    "version": "18.0.1.0.0",
+    "version": "20.0.1.0.0",
     "summary": "Fire Pump Test Results on Net Basis: mediciones, curva de rendimiento y reporte PDF",
     "description": """
         Registro de pruebas de rendimiento de bombas contra incendios:
@@ -13,7 +13,7 @@
     "license": "LGPL-3",
     "depends": ["base", "web", "mail"],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/sequence.xml",
         "views/prueba_bomba_views.xml",
         "report/prueba_bomba_report.xml",
