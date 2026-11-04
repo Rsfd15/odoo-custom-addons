@@ -6,11 +6,11 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">15</field>
-        <field name="margin_bottom">15</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">28</field>
         <field name="margin_left">10</field>
         <field name="margin_right">10</field>
-        <field name="header_spacing">0</field>
+        <field name="header_spacing">35</field>
         <field name="dpi">90</field>
     </record>
 
@@ -22,6 +22,30 @@
         <field name="print_report_name">'Inspeccion-%s' % (object.name or 'reporte')</field>
         <field name="paperformat_id" ref="paperformat_inspeccion"/>
     </record>
+
+    <!-- Encabezado y pie con los datos de la empresa (inspección y correctivo) -->
+    <template id="report_company_header">
+        <!-- Encabezado de cada página: logo de la empresa -->
+        <div class="header">
+            <img t-if="company_logo" t-att-src="company_logo" style="max-height: 28mm; max-width: 45mm;"/>
+        </div>
+    </template>
+
+    <template id="report_company_footer">
+        <!-- Pie de cada página: datos de contacto de la empresa -->
+        <div class="footer">
+            <div style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #000; line-height: 1.8;">
+                <div>
+                    <t t-if="company.email"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2UzNmMwYSIgZD0iTTIwIDRINGMtMS4xIDAtMiAuOS0yIDJ2MTJjMCAxLjEuOSAyIDIgMmgxNmMxLjEgMCAyLS45IDItMlY2YzAtMS4xLS45LTItMi0yem0wIDRsLTggNS04LTVWNmw4IDUgOC01djJ6Ii8+PC9zdmc+" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company.email"/></t>
+                    <t t-if="company.website"> &#160;&#160;<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTM2YzBhIiBzdHJva2Utd2lkdGg9IjIiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PGVsbGlwc2UgY3g9IjEyIiBjeT0iMTIiIHJ4PSI0IiByeT0iMTAiLz48cGF0aCBkPSJNMiAxMmgyME00IDdoMTZNNCAxN2gxNiIvPjwvZz48L3N2Zz4=" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company.website"/></t>
+                </div>
+                <div t-if="company.phone"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2UzNmMwYSIgZD0iTTYuNjIgMTAuNzljMS40NCAyLjgzIDMuNzYgNS4xNCA2LjU5IDYuNTlsMi4yLTIuMmMuMjctLjI3LjY3LS4zNiAxLjAyLS4yNCAxLjEyLjM3IDIuMzMuNTcgMy41Ny41Ny41NSAwIDEgLjQ1IDEgMVYyMGMwIC41NS0uNDUgMS0xIDEtOS4zOSAwLTE3LTcuNjEtMTctMTcgMC0uNTUuNDUtMSAxLTFoMy41Yy41NSAwIDEgLjQ1IDEgMSAwIDEuMjUuMiAyLjQ1LjU3IDMuNTcuMTEuMzUuMDMuNzQtLjI1IDEuMDJsLTIuMiAyLjJ6Ii8+PC9zdmc+" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company.phone"/></div>
+                <div t-if="company_address"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2UzNmMwYSIgZD0iTTEyIDJDOC4xMyAyIDUgNS4xMyA1IDljMCA1LjI1IDcgMTMgNyAxM3M3LTcuNzUgNy0xM2MwLTMuODctMy4xMy03LTctN3ptMCA5LjVjLTEuMzggMC0yLjUtMS4xMi0yLjUtMi41czEuMTItMi41IDIuNS0yLjUgMi41IDEuMTIgMi41IDIuNS0xLjEyIDIuNS0yLjUgMi41eiIvPjwvc3ZnPg==" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company_address"/></div>
+                <div style="border-top: 6px solid #ed7d31; margin-top: 2px;"/>
+                <div style="border-top: 2px solid #bfbfbf; margin-top: 4px;"/>
+            </div>
+        </div>
+    </template>
 
     <!-- Archivos adjuntos: las imágenes se ajustan al ancho de la página -->
     <template id="report_inspeccion_attachments">
@@ -100,23 +124,24 @@
 
     <template id="report_inspeccion_document">
         <t t-call="web.html_container">
+            <t t-call="gestion_servicios.report_company_header"/>
             <t t-foreach="docs" t-as="o">
                 <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id">
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
                 <div class="page insp-report">
                     <style>
                         .insp-report { font-size: 11px; color: #222; }
-                        .insp-title { color: #4a42c9; font-size: 22px; font-weight: bold; margin-bottom: 2px; }
-                        .insp-h { background: #4a42c9; color: #fff; padding: 6px 10px; border-radius: 4px;
+                        .insp-title { color: #e36c0a; font-size: 22px; font-weight: bold; margin-bottom: 2px; }
+                        .insp-h { background: #e36c0a; color: #fff; padding: 6px 10px; border-radius: 4px;
                                   font-size: 14px; margin: 16px 0 8px 0; page-break-after: avoid; }
-                        .insp-sub { border-left: 4px solid #4a42c9; padding-left: 8px; font-size: 12px;
+                        .insp-sub { border-left: 4px solid #e36c0a; padding-left: 8px; font-size: 12px;
                                     font-weight: bold; margin: 12px 0 4px 0; page-break-after: avoid; }
                         .insp-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
                         .insp-table th, .insp-table td { border: 1px solid #ccc; padding: 4px 6px; vertical-align: top; }
-                        .insp-table th { background: #eceafb; text-align: left; }
+                        .insp-table th { background: #fbe5d6; text-align: left; }
                         .insp-table tr { page-break-inside: avoid; }
                         .insp-kv { width: 100%; border-collapse: collapse; }
-                        .insp-kv th { width: 30%; background: #eceafb; border: 1px solid #ccc;
+                        .insp-kv th { width: 30%; background: #fbe5d6; border: 1px solid #ccc;
                                       padding: 4px 6px; text-align: left; }
                         .insp-kv td { border: 1px solid #ccc; padding: 4px 6px; }
                         .insp-q { font-weight: bold; margin-bottom: 4px; }
@@ -124,7 +149,7 @@
                         .insp-note { margin-top: 6px; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
-                        .att-label { font-weight: bold; color: #4a42c9; margin: 4px 0 2px 0; }
+                        .att-label { font-weight: bold; color: #e36c0a; margin: 4px 0 2px 0; }
                         .att-img { max-width: 100%; max-height: 28mm; height: auto; width: auto; }
                         .att-box img { display: inline-block; }
                         .att-file { font-size: 10px; color: #555; margin: 4px 0; }
@@ -236,6 +261,7 @@
                 </div>
                 </div>
             </t>
+            <t t-call="gestion_servicios.report_company_footer"/>
         </t>
     </template>
 

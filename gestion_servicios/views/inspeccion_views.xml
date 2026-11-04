@@ -70,7 +70,7 @@
                     <div invisible="section != 'alarm_inspection'" class="mt-2 o_insp_section">
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Panel de alarmas
                             </summary>
                             <field name="item_panel_ids" nolabel="1" mode="list,kanban">
@@ -105,7 +105,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Fuente de poder auxiliar
                             </summary>
                             <field name="item_power_ids" nolabel="1" mode="list,kanban">
@@ -140,7 +140,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Detectores de humo
                             </summary>
                             <field name="item_smoke_ids" nolabel="1" mode="list,kanban">
@@ -175,7 +175,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Detectores de Gas
                             </summary>
                             <field name="item_gas_ids" nolabel="1" mode="list,kanban">
@@ -212,7 +212,7 @@
                         
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Estaciones manuales
                             </summary>
                             <field name="item_manual_ids" nolabel="1" mode="list,kanban">
@@ -247,7 +247,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Módulos
                             </summary>
                             <field name="item_module_ids" nolabel="1" mode="list,kanban">
@@ -282,7 +282,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Alarmas audiovisuales
                             </summary>
                             <field name="item_audiovisual_ids" nolabel="1" mode="list,kanban">
@@ -326,7 +326,7 @@
                     <div invisible="section != 'fire_protection'" class="mt-2 o_insp_section">
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Tubería vertical (Risers)
                             </summary>
                             <field name="item_riser_ids" nolabel="1" mode="list,kanban">
@@ -361,7 +361,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Rociadores
                             </summary>
                             <field name="item_sprinkler_ids" nolabel="1" mode="list,kanban">
@@ -396,7 +396,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Red de hidrantes
                             </summary>
                             <field name="item_hydrant_ids" nolabel="1" mode="list,kanban">
@@ -433,7 +433,7 @@
                         
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Alimentación de agua
                             </summary>
                             <field name="item_water_ids" nolabel="1" mode="list,kanban">
@@ -468,7 +468,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Bomba diésel
                             </summary>
                             <field name="item_diesel_ids" nolabel="1" mode="list,kanban">
@@ -503,7 +503,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Bomba eléctrica
                             </summary>
                             <field name="item_electric_ids" nolabel="1" mode="list,kanban">
@@ -538,7 +538,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Bomba jockey
                             </summary>
                             <field name="item_jockey_ids" nolabel="1" mode="list,kanban">
@@ -573,7 +573,7 @@
                         </details>
 
                         <details style="margin-bottom:8px;">
-                            <summary style="background:#4a42c9;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
+                            <summary style="background:#e36c0a;color:#fff;font-weight:600;padding:14px 18px;border-radius:8px;cursor:pointer;list-style:none;">
                                 ❯&#160;&#160;Cuarto de bombas
                             </summary>
                             <field name="item_pumproom_ids" nolabel="1" mode="list,kanban">
