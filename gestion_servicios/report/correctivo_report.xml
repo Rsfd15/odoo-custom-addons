@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_correctivo" model="report.paperformat">
+        <field name="name">Reporte correctivo (carta)</field>
+        <field name="default" eval="False"/>
+        <field name="format">Letter</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">28</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_correctivo" model="ir.actions.report">
+        <field name="name">Reporte correctivo</field>
+        <field name="model">servicio.correctivo</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_servicios.report_correctivo_document</field>
+        <field name="print_report_name">'Reporte-Correctivo-%s' % (object.name or 'reporte')</field>
+        <field name="paperformat_id" ref="paperformat_correctivo"/>
+    </record>
+
+    <template id="report_correctivo_document">
+        <t t-call="web.html_container">
+            <!-- Encabezado de cada página: logo de la empresa -->
+            <div class="header">
+                <img t-if="company_logo" t-att-src="company_logo" style="max-height: 28mm; max-width: 45mm;"/>
+            </div>
+
+            <t t-foreach="docs" t-as="o">
+                <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id">
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                <div class="page corr-report">
+                    <style>
+                        .corr-report { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000; }
+                        .corr-title { font-size: 26px; font-weight: bold; text-align: center; margin: 0 0 4px 0; }
+                        .corr-kv { width: 100%; border-collapse: collapse; }
+                        .corr-kv th, .corr-kv td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; }
+                        .corr-kv th { width: 35%; background: #f2f2f2; text-align: left; font-size: 13px; }
+                        .corr-kv td { font-size: 15px; }
+                        .corr-band { border: 1px solid #000; border-top: none; background: #c8c8c8; height: 28px; }
+                        .corr-body { border: 1px solid #000; border-top: none; padding: 8px 14px; min-height: 60mm; }
+                        .corr-item { margin: 6px 0 2px 0; padding-left: 16px; text-indent: -12px; white-space: pre-wrap; }
+                        .corr-photos { text-align: center; margin: 6px 0 10px 0; }
+                        .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
+                        .att-box a { text-decoration: none; }
+                        .att-img { max-width: 100%; max-height: 28mm; height: auto; width: auto; }
+                        .att-box img { display: inline-block; }
+                        .att-file { font-size: 10px; color: #555; margin: 4px 0; }
+                    </style>
+
+                    <div class="corr-title">REPORTE CORRECTIVO</div>
+                    <table class="corr-kv">
+                        <tr><th>NOMBRE DE LA OBRA</th><td><span t-field="o.work_name"/></td></tr>
+                        <tr><th>No. DE REPORTE</th><td><span t-field="o.name"/></td></tr>
+                        <tr><th>EMPRESA</th><td><span t-field="o.customer_id"/></td></tr>
+                        <tr><th>SUPERVISOR</th><td><span t-field="o.supervisor_id"/></td></tr>
+                        <tr><th>DIRECCION</th><td><span t-field="o.address"/></td></tr>
+                        <tr><th>SOLICITANTE</th><td><span t-field="o.requester"/></td></tr>
+                    </table>
+                    <div class="corr-band"/>
+                    <div class="corr-body">
+                        <t t-foreach="o.line_ids" t-as="line">
+                            <div class="corr-item">• <t t-out="line.description"/></div>
+                            <div t-if="line.attachment_ids" class="corr-photos">
+                                <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+                </div>
+            </t>
+
+            <!-- Pie de cada página: datos de contacto de la empresa -->
+            <div class="footer">
+                <div style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #000; line-height: 1.6;">
+                    <div>
+                        <t t-if="company.email"><span style="color: #e36c0a;">&#9632;</span> <t t-out="company.email"/></t>
+                        <t t-if="company.website"> &#160;&#160;<span style="color: #e36c0a;">&#9632;</span> <t t-out="company.website"/></t>
+                    </div>
+                    <div t-if="company.phone"><span style="color: #e36c0a;">&#9632;</span> <t t-out="company.phone"/></div>
+                    <div t-if="company_address"><span style="color: #e36c0a;">&#9632;</span> <t t-out="company_address"/></div>
+                    <div style="border-top: 6px solid #ed7d31; margin-top: 2px;"/>
+                    <div style="border-top: 2px solid #bfbfbf; margin-top: 4px;"/>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

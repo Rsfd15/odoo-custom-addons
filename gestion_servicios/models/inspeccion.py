@@ -800,7 +800,12 @@ class ReportInspeccion(models.AbstractModel):
 # ======================= COMPRESIÓN DE FOTOS =======================
 
 IMAGE_TARGET_KB = 100  # tamaño objetivo de cada foto (en KB)
-_COMPRESS_MODELS = ("servicio.inspeccion", "servicio.inspeccion.item")
+_COMPRESS_MODELS = (
+    "servicio.inspeccion",
+    "servicio.inspeccion.item",
+    "servicio.correctivo",
+    "servicio.correctivo.linea",
+)
 # (lado máximo en px, calidad JPEG): se prueban en orden hasta llegar al objetivo
 _COMPRESS_STEPS = (
     (1600, 80), (1280, 72), (1024, 65), (900, 60),
