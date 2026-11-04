@@ -25,10 +25,7 @@
 
     <template id="report_correctivo_document">
         <t t-call="web.html_container">
-            <!-- Encabezado de cada página: logo de la empresa -->
-            <div class="header">
-                <img t-if="company_logo" t-att-src="company_logo" style="max-height: 28mm; max-width: 45mm;"/>
-            </div>
+            <t t-call="gestion_servicios.report_company_header"/>
 
             <t t-foreach="docs" t-as="o">
                 <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id">
@@ -74,19 +71,7 @@
                 </div>
             </t>
 
-            <!-- Pie de cada página: datos de contacto de la empresa -->
-            <div class="footer">
-                <div style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #000; line-height: 1.8;">
-                    <div>
-                        <t t-if="company.email"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2UzNmMwYSIgZD0iTTIwIDRINGMtMS4xIDAtMiAuOS0yIDJ2MTJjMCAxLjEuOSAyIDIgMmgxNmMxLjEgMCAyLS45IDItMlY2YzAtMS4xLS45LTItMi0yem0wIDRsLTggNS04LTVWNmw4IDUgOC01djJ6Ii8+PC9zdmc+" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company.email"/></t>
-                        <t t-if="company.website"> &#160;&#160;<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTM2YzBhIiBzdHJva2Utd2lkdGg9IjIiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PGVsbGlwc2UgY3g9IjEyIiBjeT0iMTIiIHJ4PSI0IiByeT0iMTAiLz48cGF0aCBkPSJNMiAxMmgyME00IDdoMTZNNCAxN2gxNiIvPjwvZz48L3N2Zz4=" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company.website"/></t>
-                    </div>
-                    <div t-if="company.phone"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2UzNmMwYSIgZD0iTTYuNjIgMTAuNzljMS40NCAyLjgzIDMuNzYgNS4xNCA2LjU5IDYuNTlsMi4yLTIuMmMuMjctLjI3LjY3LS4zNiAxLjAyLS4yNCAxLjEyLjM3IDIuMzMuNTcgMy41Ny41Ny41NSAwIDEgLjQ1IDEgMVYyMGMwIC41NS0uNDUgMS0xIDEtOS4zOSAwLTE3LTcuNjEtMTctMTcgMC0uNTUuNDUtMSAxLTFoMy41Yy41NSAwIDEgLjQ1IDEgMSAwIDEuMjUuMiAyLjQ1LjU3IDMuNTcuMTEuMzUuMDMuNzQtLjI1IDEuMDJsLTIuMiAyLjJ6Ii8+PC9zdmc+" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company.phone"/></div>
-                    <div t-if="company_address"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2UzNmMwYSIgZD0iTTEyIDJDOC4xMyAyIDUgNS4xMyA1IDljMCA1LjI1IDcgMTMgNyAxM3M3LTcuNzUgNy0xM2MwLTMuODctMy4xMy03LTctN3ptMCA5LjVjLTEuMzggMC0yLjUtMS4xMi0yLjUtMi41czEuMTItMi41IDIuNS0yLjUgMi41IDEuMTIgMi41IDIuNS0xLjEyIDIuNS0yLjUgMi41eiIvPjwvc3ZnPg==" style="height: 11px; width: 11px; vertical-align: middle;"/> <t t-out="company_address"/></div>
-                    <div style="border-top: 6px solid #ed7d31; margin-top: 2px;"/>
-                    <div style="border-top: 2px solid #bfbfbf; margin-top: 4px;"/>
-                </div>
-            </div>
+            <t t-call="gestion_servicios.report_company_footer"/>
         </t>
     </template>
 </odoo>

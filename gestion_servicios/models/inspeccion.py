@@ -768,6 +768,7 @@ class ReportInspeccion(models.AbstractModel):
             return cache[attachment.id]
 
         base_url = self.get_base_url().rstrip("/")
+        company = self.env.company
 
         def photo_url(attachment):
             """Enlace a la foto completa; el token permite abrirla sin iniciar sesión."""
@@ -793,6 +794,11 @@ class ReportInspeccion(models.AbstractModel):
             "photo_url": photo_url,
             "file_url": file_url,
             "signature_uri": _signature_uri,
+            "company": company,
+            "company_logo": _signature_uri(company.logo),
+            "company_address": ", ".join(
+                p for p in (company.street, company.street2, company.city) if p
+            ),
         }
 
 

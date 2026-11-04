@@ -1,7 +1,5 @@
 from odoo import api, fields, models
 
-from .inspeccion import _signature_uri
-
 
 class ServicioCorrectivo(models.Model):
     _name = "servicio.correctivo"
@@ -106,15 +104,9 @@ class ReportCorrectivo(models.AbstractModel):
         values = self.env["report.gestion_servicios.report_inspeccion_document"]._get_report_values(
             [], data
         )
-        company = self.env.company
         values.update({
             "doc_ids": docids,
             "doc_model": "servicio.correctivo",
             "docs": self.env["servicio.correctivo"].browse(docids),
-            "company": company,
-            "company_logo": _signature_uri(company.logo),
-            "company_address": ", ".join(
-                p for p in (company.street, company.street2, company.city) if p
-            ),
         })
         return values
