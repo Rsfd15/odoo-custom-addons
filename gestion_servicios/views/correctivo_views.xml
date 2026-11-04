@@ -1,0 +1,68 @@
+<odoo>
+    <record id="view_servicio_correctivo_list" model="ir.ui.view">
+        <field name="name">servicio.correctivo.list</field>
+        <field name="model">servicio.correctivo</field>
+        <field name="arch" type="xml">
+            <list string="Reportes correctivos">
+                <field name="name"/>
+                <field name="report_date"/>
+                <field name="work_name"/>
+                <field name="customer_id"/>
+                <field name="supervisor_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_servicio_correctivo_form" model="ir.ui.view">
+        <field name="name">servicio.correctivo.form</field>
+        <field name="model">servicio.correctivo</field>
+        <field name="arch" type="xml">
+            <form string="Reporte correctivo">
+                <header>
+                    <button name="action_download_report" type="object"
+                            string="Descargar PDF" icon="download" class="btn-primary"/>
+                    <button name="action_send_email" type="object"
+                            string="Enviar por correo" icon="mail" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <field name="work_name"/>
+                        <field name="report_date"/>
+                        <field name="customer_id"/>
+                        <field name="supervisor_id"/>
+                        <field name="address" class="o_geo_location" placeholder="Toca aquí para detectar tu ubicación"/>
+                        <field name="requester"/>
+                    </group>
+                    <separator string="Trabajos realizados"/>
+                    <field name="line_ids">
+                        <list>
+                            <field name="sequence" widget="handle"/>
+                            <field name="description"/>
+                            <field name="photo_count"/>
+                        </list>
+                        <form string="Trabajo realizado">
+                            <group>
+                                <field name="description" placeholder="Describe lo que se hizo"/>
+                                <field name="attachment_ids" widget="many2many_binary" string="Fotos"/>
+                            </group>
+                        </form>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_servicio_correctivo" model="ir.actions.act_window">
+        <field name="name">Reportes correctivos</field>
+        <field name="res_model">servicio.correctivo</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_servicio_correctivo" name="Reporte Correctivo"
+              parent="menu_gestion_servicios_root"
+              action="action_servicio_correctivo" sequence="20"/>
+</odoo>
