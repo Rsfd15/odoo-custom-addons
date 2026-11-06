@@ -95,7 +95,7 @@ class ServicioCorrectivoLinea(models.Model):
         "attachment_id",
         string="Fotos",
     )
-    photo_count = fields.Integer(string="Fotos", compute="_compute_photo_count")
+    photo_count = fields.Integer(string="Núm. de fotos", compute="_compute_photo_count")
 
     @api.depends("attachment_ids")
     def _compute_photo_count(self):

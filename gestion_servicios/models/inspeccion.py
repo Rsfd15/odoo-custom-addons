@@ -478,18 +478,18 @@ class ServicioInspeccion(models.Model):
 
     # Sección 6: Observaciones generales de servicio
     observations_text = fields.Text(string="Deficiencias encontradas")
-    observations_note = fields.Text(string="Nota")
-    observations_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_obs_att_rel", string="Archivos multimedia")
+    observations_note = fields.Text(string="Nota de observaciones")
+    observations_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_obs_att_rel", string="Archivos de observaciones")
 
     # Sección 7: Conclusión y recomendaciones
     recommendations_text = fields.Text(string="Recomendaciones generales")
-    recommendations_note = fields.Text(string="Nota")
-    recommendations_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_rec_att_rel", string="Archivos multimedia")
+    recommendations_note = fields.Text(string="Nota de recomendaciones")
+    recommendations_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_rec_att_rel", string="Archivos de recomendaciones")
 
     # Sección 8: Equipo o sistema quedan en
     equipment_status_text = fields.Text(string="Estado en que quedan los equipos")
-    equipment_status_note = fields.Text(string="Nota")
-    equipment_status_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_eq_att_rel", string="Archivos multimedia")
+    equipment_status_note = fields.Text(string="Nota del estado del equipo")
+    equipment_status_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_eq_att_rel", string="Archivos del estado del equipo")
 
     # Sección 11: Recibido por
     report_made_by = fields.Char(
@@ -500,11 +500,11 @@ class ServicioInspeccion(models.Model):
     report_received_by = fields.Char(string="Reporte recibido por")
     report_received_signature = fields.Binary(
         string="Firma de quien recibe", attachment=True, copy=False)
-    received_note = fields.Text(string="Nota")
-    received_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_recv_att_rel", string="Archivos multimedia")
+    received_note = fields.Text(string="Nota de recepción")
+    received_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_recv_att_rel", string="Archivos de recepción")
 
     notes = fields.Text(string="Observaciones generales")
-    attachment_ids = fields.Many2many("ir.attachment", string="Archivos multimedia")
+    attachment_ids = fields.Many2many("ir.attachment", string="Archivos generales")
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -675,7 +675,7 @@ class ServicioInspeccionItem(models.Model):
                     )
 
     question_short = fields.Char(
-        string="Pregunta",
+        string="Pregunta (corta)",
         compute="_compute_question_short",
     )
 
