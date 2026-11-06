@@ -50,6 +50,15 @@
                             </group>
                         </form>
                     </field>
+                    <separator string="Firmas"/>
+                    <group>
+                        <field name="report_made_by"/>
+                        <field name="report_made_signature" widget="signature"
+                               options="{'full_name': 'report_made_by', 'size': [400, 150]}"/>
+                        <field name="report_received_by"/>
+                        <field name="report_received_signature" widget="signature"
+                               options="{'full_name': 'report_received_by', 'size': [400, 150]}"/>
+                    </group>
                 </sheet>
                 <chatter/>
             </form>

@@ -26,6 +26,15 @@ class ServicioCorrectivo(models.Model):
         "servicio.correctivo.linea", "correctivo_id", string="Trabajos realizados", copy=True
     )
 
+    # Firmas (igual que en la inspección)
+    report_made_by = fields.Char(
+        string="Reporte elaborado por", default=lambda self: self.env.user.name)
+    report_made_signature = fields.Binary(
+        string="Firma de quien elabora", attachment=True, copy=False)
+    report_received_by = fields.Char(string="Reporte recibido por")
+    report_received_signature = fields.Binary(
+        string="Firma de quien recibe", attachment=True, copy=False)
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
