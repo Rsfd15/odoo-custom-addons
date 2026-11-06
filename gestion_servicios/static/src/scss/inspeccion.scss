@@ -25,3 +25,24 @@
         font-size: 15px;
     }
 }
+
+// Menú de arriba: "Inspecciones" y "Reporte Correctivo" como botones naranjas
+.o_main_navbar {
+    [data-menu-xmlid="gestion_servicios.menu_servicio_inspeccion"],
+    [data-menu-xmlid="gestion_servicios.menu_servicio_correctivo"] {
+        background: #e36c0a !important;
+        color: #fff !important;
+        font-weight: 600;
+        border-radius: 6px;
+        margin: 6px 4px;
+        padding: 0 14px !important;
+        display: flex;
+        align-items: center;
+
+        &:hover,
+        &:focus {
+            background: #c45a05 !important;
+            color: #fff !important;
+        }
+    }
+}
