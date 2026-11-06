@@ -848,6 +848,8 @@ class IrAttachment(models.Model):
         """Comprime la foto de `raw` y ajusta `vals`. Devuelve False si no aplica."""
         if vals.get("res_model") not in _COMPRESS_MODELS or not raw:
             return False
+        if vals.get("res_field") or not isinstance(raw, (bytes, bytearray, memoryview)):
+            return False  # firmas y otros campos binarios no se tocan
         raw = bytes(raw)
         mimetype = vals.get("mimetype") or guess_mimetype(raw)
         if mimetype not in ("image/jpeg", "image/png", "image/webp"):
