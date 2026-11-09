@@ -113,7 +113,12 @@
     <!-- Cuadro de texto + nota + archivos (secciones 6, 7 y 8) -->
     <template id="report_inspeccion_textblock">
         <div class="insp-q"><t t-out="question"/></div>
-        <table class="insp-boxt"><tr><td><t t-out="text_value"/></td></tr></table>
+        <div style="margin-top: 1px;">
+            <t t-foreach="html_blocks(text_value)" t-as="block">
+                <div class="insp-boxb"><t t-out="block"/></div>
+            </t>
+            <div t-if="not html_blocks(text_value)" class="insp-boxb insp-empty"/>
+        </div>
         <div t-if="note_value" class="insp-note">
             <strong>Nota:</strong> <span style="white-space: pre-wrap;"><t t-out="note_value"/></span>
         </div>
@@ -146,11 +151,13 @@
                         .insp-kv td { border: 1px solid #ccc; padding: 4px 6px; }
                         .insp-q { font-weight: bold; margin-bottom: 4px; }
                         .insp-box { border: 1px solid #ccc; border-radius: 4px; padding: 8px; min-height: 40px; }
-                        /* Recuadro de texto como tabla: si cambia de hoja, el borde no queda abierto */
+                        /* Un recuadro por párrafo: ninguno queda abierto al cambiar de hoja */
                         .insp-boxt { width: 100%; border-collapse: collapse; }
-                        .insp-boxt td { border: 1px solid #ccc; padding: 8px; min-height: 40px; }
-                        .insp-boxt tr { page-break-inside: avoid; }
-                        .insp-boxt p { margin: 0 0 4px 0; }
+                        .insp-boxt td { border: 1px solid #ccc; padding: 8px; }
+                        .insp-boxb { border: 1px solid #ccc; margin-top: -1px; padding: 6px 8px; page-break-inside: avoid; }
+                        .insp-boxb.insp-empty { height: 40px; }
+                        .insp-boxb p { margin: 0; }
+                        .insp-boxb ul, .insp-boxb ol { margin: 0; padding-left: 18px; }
                         .insp-note { margin-top: 6px; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }

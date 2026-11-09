@@ -3,6 +3,8 @@ import logging
 import os
 
 import requests
+from lxml import html as lxml_html
+from markupsafe import Markup
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -753,6 +755,40 @@ def _signature_uri(value):
     return "data:image/png;base64," + base64.b64encode(bytes(value)).decode()
 
 
+def _html_blocks(value):
+    """Parte un texto con formato en párrafos sueltos.
+
+    En el PDF cada párrafo va en su propio recuadro: así ningún recuadro
+    queda abierto cuando el texto pasa a la hoja siguiente.
+    """
+    if not value or not str(value).strip():
+        return []
+    blocks = []
+
+    def add_text(text):
+        if text and text.strip():
+            blocks.append(Markup("<p>%s</p>") % text.strip())
+
+    try:
+        nodes = lxml_html.fragments_fromstring(str(value))
+    except Exception:
+        return [Markup(value)]
+    for node in nodes:
+        if isinstance(node, str):
+            add_text(node)
+            continue
+        if node.tag in ("ul", "ol"):
+            start = int(node.get("start") or 1)
+            for index, item in enumerate(node.findall("li")):
+                item_html = lxml_html.tostring(item, encoding="unicode", with_tail=False)
+                attrs = ' start="%d"' % (start + index) if node.tag == "ol" else ""
+                blocks.append(Markup("<%s%s>%s</%s>" % (node.tag, attrs, item_html, node.tag)))
+        elif node.text_content().strip() or node.xpath(".//img"):
+            blocks.append(Markup(lxml_html.tostring(node, encoding="unicode", with_tail=False)))
+        add_text(node.tail)
+    return blocks
+
+
 class ReportInspeccion(models.AbstractModel):
     _name = "report.gestion_servicios.report_inspeccion_document"
     _description = "Reporte PDF de inspección de servicio"
@@ -794,6 +830,7 @@ class ReportInspeccion(models.AbstractModel):
             "photo_url": photo_url,
             "file_url": file_url,
             "signature_uri": _signature_uri,
+            "html_blocks": _html_blocks,
             "company": company,
             "company_logo": _signature_uri(company.logo),
             "company_address": ", ".join(

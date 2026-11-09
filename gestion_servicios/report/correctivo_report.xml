@@ -38,14 +38,14 @@
                         .corr-kv th, .corr-kv td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; }
                         .corr-kv th { width: 35%; background: #f2f2f2; text-align: left; font-size: 13px; }
                         .corr-kv td { font-size: 15px; }
-                        /* Cada renglón es un recuadro cerrado: si cambia de hoja, el borde no queda abierto */
-                        .corr-work { width: 100%; border-collapse: collapse; }
-                        .corr-work td { border: 1px solid #000; padding: 6px 14px; vertical-align: top; }
-                        .corr-work tr { page-break-inside: avoid; }
-                        .corr-work td.corr-band { background: #c8c8c8; height: 28px; padding: 0; }
-                        .corr-work td.corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 6px; }
-                        .corr-text ul { margin: 0; padding-left: 18px; }
-                        .corr-text p { margin: 0 0 4px 0; }
+                        /* Un recuadro por párrafo: ninguno queda abierto al cambiar de hoja */
+                        .corr-box { border: 1px solid #000; margin-top: -1px; padding: 6px 14px; page-break-inside: avoid; }
+                        .corr-band { background: #c8c8c8; height: 16px; }
+                        .corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 6px; }
+                        .corr-text { position: relative; padding-left: 30px; }
+                        .corr-text p { margin: 0; }
+                        .corr-text ul, .corr-text ol { margin: 0; padding-left: 18px; }
+                        .corr-bullet { position: absolute; left: 14px; top: 6px; }
                         .corr-photos { text-align: center; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
@@ -68,25 +68,29 @@
                         <tr><th>DIRECCION</th><td><span t-field="o.address"/></td></tr>
                         <tr><th>SOLICITANTE</th><td><span t-field="o.requester"/></td></tr>
                     </table>
-                    <table class="corr-work">
-                        <tr><td class="corr-band"/></tr>
-                        <t t-foreach="o.line_ids" t-as="line">
-                            <tr><td class="corr-text"><ul><li><t t-out="line.description"/></li></ul></td></tr>
-                            <tr t-if="line.attachment_ids">
-                                <td class="corr-photos">
-                                    <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
-                                </td>
-                            </tr>
+                    <div class="corr-box corr-band"/>
+                    <t t-foreach="o.line_ids" t-as="line">
+                        <t t-foreach="html_blocks(line.description)" t-as="block">
+                            <div class="corr-box corr-text">
+                                <span t-if="block_first" class="corr-bullet">•</span>
+                                <t t-out="block"/>
+                            </div>
                         </t>
-                        <t t-if="o.recommendation">
-                            <tr><td class="corr-sec">RECOMENDACIÓN POSTERIOR AL SERVICIO</td></tr>
-                            <tr><td class="corr-text"><t t-out="o.recommendation"/></td></tr>
-                        </t>
-                        <t t-if="o.conclusion">
-                            <tr><td class="corr-sec">CONCLUSIÓN</td></tr>
-                            <tr><td class="corr-text"><t t-out="o.conclusion"/></td></tr>
-                        </t>
-                    </table>
+                        <div t-if="line.attachment_ids" class="corr-box corr-photos">
+                            <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
+                        </div>
+                    </t>
+                    <t t-set="rec_blocks" t-value="html_blocks(o.recommendation)"/>
+                    <t t-if="rec_blocks">
+                        <div class="corr-box corr-sec">RECOMENDACIÓN POSTERIOR AL SERVICIO</div>
+                        <div t-foreach="rec_blocks" t-as="block" class="corr-box corr-text"><t t-out="block"/></div>
+                    </t>
+                    <t t-set="conc_blocks" t-value="html_blocks(o.conclusion)"/>
+                    <t t-if="conc_blocks">
+                        <div class="corr-box corr-sec">CONCLUSIÓN</div>
+                        <div t-foreach="conc_blocks" t-as="block" class="corr-box corr-text"><t t-out="block"/></div>
+                    </t>
+                    <div style="page-break-inside: avoid;">
                     <table class="corr-sign">
                         <tr>
                             <th>REPORTE ELABORADO POR</th>
@@ -107,6 +111,7 @@
                             </td>
                         </tr>
                     </table>
+                    </div>
                 </div>
                 </div>
             </t>
