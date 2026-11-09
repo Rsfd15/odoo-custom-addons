@@ -739,7 +739,7 @@
     </record>
 
     <menuitem id="menu_gestion_servicios_root" name="Gestión de servicios" sequence="10"/>
-    <menuitem id="menu_servicio_inspeccion" name="Inspecciones"
+    <menuitem id="menu_servicio_inspeccion" name="INSPECCIONES"
               parent="menu_gestion_servicios_root"
               action="action_servicio_inspeccion" sequence="10"/>
 </odoo>

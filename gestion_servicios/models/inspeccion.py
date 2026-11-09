@@ -477,17 +477,17 @@ class ServicioInspeccion(models.Model):
         domain=[("section", "=", "customer_evaluation")], string="Evaluación del cliente")
 
     # Sección 6: Observaciones generales de servicio
-    observations_text = fields.Text(string="Deficiencias encontradas")
+    observations_text = fields.Html(string="Deficiencias encontradas", sanitize_style=True)
     observations_note = fields.Text(string="Nota de observaciones")
     observations_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_obs_att_rel", string="Archivos de observaciones")
 
     # Sección 7: Conclusión y recomendaciones
-    recommendations_text = fields.Text(string="Recomendaciones generales")
+    recommendations_text = fields.Html(string="Recomendaciones generales", sanitize_style=True)
     recommendations_note = fields.Text(string="Nota de recomendaciones")
     recommendations_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_rec_att_rel", string="Archivos de recomendaciones")
 
     # Sección 8: Equipo o sistema quedan en
-    equipment_status_text = fields.Text(string="Estado en que quedan los equipos")
+    equipment_status_text = fields.Html(string="Estado en que quedan los equipos", sanitize_style=True)
     equipment_status_note = fields.Text(string="Nota del estado del equipo")
     equipment_status_attachment_ids = fields.Many2many("ir.attachment", "servicio_insp_eq_att_rel", string="Archivos del estado del equipo")
 

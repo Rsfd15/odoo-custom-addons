@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="paperformat_correctivo" model="report.paperformat">
-        <field name="name">Reporte correctivo (carta)</field>
+        <field name="name">Reporte de servicio (carta)</field>
         <field name="default" eval="False"/>
         <field name="format">Letter</field>
         <field name="orientation">Portrait</field>
@@ -15,11 +15,11 @@
     </record>
 
     <record id="action_report_correctivo" model="ir.actions.report">
-        <field name="name">Reporte correctivo</field>
+        <field name="name">Reporte de servicio</field>
         <field name="model">servicio.correctivo</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">gestion_servicios.report_correctivo_document</field>
-        <field name="print_report_name">'Reporte-Correctivo-%s' % (object.name or 'reporte')</field>
+        <field name="print_report_name">'Reporte-Servicio-%s' % (object.name or 'reporte')</field>
         <field name="paperformat_id" ref="paperformat_correctivo"/>
     </record>
 
@@ -38,10 +38,15 @@
                         .corr-kv th, .corr-kv td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; }
                         .corr-kv th { width: 35%; background: #f2f2f2; text-align: left; font-size: 13px; }
                         .corr-kv td { font-size: 15px; }
-                        .corr-band { border: 1px solid #000; border-top: none; background: #c8c8c8; height: 28px; }
-                        .corr-body { border: 1px solid #000; border-top: none; padding: 8px 14px; min-height: 60mm; }
-                        .corr-item { margin: 6px 0 2px 0; padding-left: 16px; text-indent: -12px; white-space: pre-wrap; }
-                        .corr-photos { text-align: center; margin: 6px 0 10px 0; }
+                        /* Cada renglón es un recuadro cerrado: si cambia de hoja, el borde no queda abierto */
+                        .corr-work { width: 100%; border-collapse: collapse; }
+                        .corr-work td { border: 1px solid #000; padding: 6px 14px; vertical-align: top; }
+                        .corr-work tr { page-break-inside: avoid; }
+                        .corr-work td.corr-band { background: #c8c8c8; height: 28px; padding: 0; }
+                        .corr-work td.corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 6px; }
+                        .corr-text ul { margin: 0; padding-left: 18px; }
+                        .corr-text p { margin: 0 0 4px 0; }
+                        .corr-photos { text-align: center; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
                         .att-img { max-width: 100%; max-height: 28mm; height: auto; width: auto; }
@@ -54,7 +59,7 @@
                         .sig-img { max-width: 100%; max-height: 35mm; }
                     </style>
 
-                    <div class="corr-title">REPORTE CORRECTIVO</div>
+                    <div class="corr-title">REPORTE DE SERVICIO</div>
                     <table class="corr-kv">
                         <tr><th>NOMBRE DE LA OBRA</th><td><span t-field="o.work_name"/></td></tr>
                         <tr><th>No. DE REPORTE</th><td><span t-field="o.name"/></td></tr>
@@ -63,15 +68,25 @@
                         <tr><th>DIRECCION</th><td><span t-field="o.address"/></td></tr>
                         <tr><th>SOLICITANTE</th><td><span t-field="o.requester"/></td></tr>
                     </table>
-                    <div class="corr-band"/>
-                    <div class="corr-body">
+                    <table class="corr-work">
+                        <tr><td class="corr-band"/></tr>
                         <t t-foreach="o.line_ids" t-as="line">
-                            <div class="corr-item">• <t t-out="line.description"/></div>
-                            <div t-if="line.attachment_ids" class="corr-photos">
-                                <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
-                            </div>
+                            <tr><td class="corr-text"><ul><li><t t-out="line.description"/></li></ul></td></tr>
+                            <tr t-if="line.attachment_ids">
+                                <td class="corr-photos">
+                                    <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
+                                </td>
+                            </tr>
                         </t>
-                    </div>
+                        <t t-if="o.recommendation">
+                            <tr><td class="corr-sec">RECOMENDACIÓN POSTERIOR AL SERVICIO</td></tr>
+                            <tr><td class="corr-text"><t t-out="o.recommendation"/></td></tr>
+                        </t>
+                        <t t-if="o.conclusion">
+                            <tr><td class="corr-sec">CONCLUSIÓN</td></tr>
+                            <tr><td class="corr-text"><t t-out="o.conclusion"/></td></tr>
+                        </t>
+                    </table>
                     <table class="corr-sign">
                         <tr>
                             <th>REPORTE ELABORADO POR</th>

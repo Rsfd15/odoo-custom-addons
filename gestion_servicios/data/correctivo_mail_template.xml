@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="mail_template_correctivo" model="mail.template">
-        <field name="name">Reporte correctivo: enviar al cliente</field>
+        <field name="name">Reporte de servicio: enviar al cliente</field>
         <field name="model_id" ref="model_servicio_correctivo"/>
-        <field name="subject">Reporte correctivo {{ object.name }} - {{ object.work_name }}</field>
+        <field name="subject">Reporte de servicio {{ object.name }} - {{ object.work_name }}</field>
         <field name="email_from">{{ (object.supervisor_id.email_formatted or user.email_formatted) }}</field>
         <field name="use_default_to" eval="False"/>
         <field name="partner_to">{{ object.customer_id.id }}</field>
@@ -15,7 +15,7 @@
     <p style="margin: 0px; padding: 0px; font-size: 13px;">
         Estimado(a) <t t-out="object.requester or object.customer_id.name or ''"/>:
         <br/><br/>
-        Le enviamos adjunto el reporte correctivo
+        Le enviamos adjunto el reporte de servicio
         <strong t-out="object.name or ''"/>
         de la obra <strong t-out="object.work_name or ''"/>,
         realizado el <t t-out="object.report_date and object.report_date.strftime('%d/%m/%Y') or ''"/>.

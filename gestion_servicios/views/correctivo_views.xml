@@ -3,7 +3,7 @@
         <field name="name">servicio.correctivo.list</field>
         <field name="model">servicio.correctivo</field>
         <field name="arch" type="xml">
-            <list string="Reportes correctivos">
+            <list string="Reportes de servicio">
                 <field name="name"/>
                 <field name="report_date"/>
                 <field name="work_name"/>
@@ -17,7 +17,7 @@
         <field name="name">servicio.correctivo.form</field>
         <field name="model">servicio.correctivo</field>
         <field name="arch" type="xml">
-            <form string="Reporte correctivo">
+            <form string="Reporte de servicio">
                 <header>
                     <button name="action_download_report" type="object"
                             string="Descargar PDF" icon="download" class="btn-primary"/>
@@ -50,6 +50,10 @@
                             </group>
                         </form>
                     </field>
+                    <separator string="Recomendación posterior al servicio"/>
+                    <field name="recommendation" nolabel="1" placeholder="Escriba aquí..."/>
+                    <separator string="Conclusión"/>
+                    <field name="conclusion" nolabel="1" placeholder="Escriba aquí..."/>
                     <separator string="Firmas"/>
                     <group>
                         <field name="report_made_by"/>
@@ -66,12 +70,12 @@
     </record>
 
     <record id="action_servicio_correctivo" model="ir.actions.act_window">
-        <field name="name">Reportes correctivos</field>
+        <field name="name">Reportes de servicio</field>
         <field name="res_model">servicio.correctivo</field>
         <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="menu_servicio_correctivo" name="Reporte Correctivo"
+    <menuitem id="menu_servicio_correctivo" name="REPORTE DE SERVICIO"
               parent="menu_gestion_servicios_root"
               action="action_servicio_correctivo" sequence="20"/>
 </odoo>
