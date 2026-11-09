@@ -38,14 +38,22 @@
                         .corr-kv th, .corr-kv td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; }
                         .corr-kv th { width: 35%; background: #f2f2f2; text-align: left; font-size: 13px; }
                         .corr-kv td { font-size: 15px; }
-                        /* Un recuadro por párrafo: ninguno queda abierto al cambiar de hoja */
-                        .corr-box { border: 1px solid #000; margin-top: -1px; padding: 6px 14px; page-break-inside: avoid; }
-                        .corr-band { background: #c8c8c8; height: 16px; }
-                        .corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 6px; }
-                        .corr-text { position: relative; padding-left: 30px; }
+                        /* Un solo cuadro: la línea de arriba (thead) y la de abajo (tfoot) se repiten
+                           en cada hoja, y cada párrafo es un renglón que no se parte */
+                        .corr-frame { width: 100%; border-collapse: collapse; margin-top: -1px; }
+                        .corr-frame thead { display: table-header-group !important; }
+                        .corr-frame tfoot { display: table-footer-group !important; }
+                        .corr-frame tr { page-break-inside: avoid; }
+                        .corr-frame td { border-left: 1px solid #000; border-right: 1px solid #000; padding: 3px 14px; vertical-align: top; }
+                        .corr-frame td.corr-edge { padding: 0; height: 0; font-size: 0; line-height: 0; }
+                        .corr-frame thead td { border-top: 1px solid #000; }
+                        .corr-frame tfoot td { border-bottom: 1px solid #000; }
+                        .corr-frame td.corr-band { background: #c8c8c8; height: 16px; padding: 0; }
+                        .corr-frame td.corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 14px; }
+                        .corr-text { position: relative; padding-left: 16px; }
                         .corr-text p { margin: 0; }
                         .corr-text ul, .corr-text ol { margin: 0; padding-left: 18px; }
-                        .corr-bullet { position: absolute; left: 14px; top: 6px; }
+                        .corr-bullet { position: absolute; left: 0; top: 0; }
                         .corr-photos { text-align: center; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
@@ -68,28 +76,38 @@
                         <tr><th>DIRECCION</th><td><span t-field="o.address"/></td></tr>
                         <tr><th>SOLICITANTE</th><td><span t-field="o.requester"/></td></tr>
                     </table>
-                    <div class="corr-box corr-band"/>
-                    <t t-foreach="o.line_ids" t-as="line">
-                        <t t-foreach="html_blocks(line.description)" t-as="block">
-                            <div class="corr-box corr-text">
-                                <span t-if="block_first" class="corr-bullet">•</span>
-                                <t t-out="block"/>
-                            </div>
-                        </t>
-                        <div t-if="line.attachment_ids" class="corr-box corr-photos">
-                            <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
-                        </div>
-                    </t>
-                    <t t-set="rec_blocks" t-value="html_blocks(o.recommendation)"/>
-                    <t t-if="rec_blocks">
-                        <div class="corr-box corr-sec">RECOMENDACIÓN POSTERIOR AL SERVICIO</div>
-                        <div t-foreach="rec_blocks" t-as="block" class="corr-box corr-text"><t t-out="block"/></div>
-                    </t>
-                    <t t-set="conc_blocks" t-value="html_blocks(o.conclusion)"/>
-                    <t t-if="conc_blocks">
-                        <div class="corr-box corr-sec">CONCLUSIÓN</div>
-                        <div t-foreach="conc_blocks" t-as="block" class="corr-box corr-text"><t t-out="block"/></div>
-                    </t>
+                    <table class="corr-frame">
+                        <thead><tr><td class="corr-edge"/></tr></thead>
+                        <tfoot><tr><td class="corr-edge"/></tr></tfoot>
+                        <tbody>
+                            <tr><td class="corr-band"/></tr>
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <tr t-foreach="html_blocks(line.description)" t-as="block">
+                                    <td>
+                                        <div class="corr-text">
+                                            <span t-if="block_first" class="corr-bullet">•</span>
+                                            <t t-out="block"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr t-if="line.attachment_ids">
+                                    <td class="corr-photos">
+                                        <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-set="rec_blocks" t-value="html_blocks(o.recommendation)"/>
+                            <t t-if="rec_blocks">
+                                <tr><td class="corr-sec">RECOMENDACIÓN POSTERIOR AL SERVICIO</td></tr>
+                                <tr t-foreach="rec_blocks" t-as="block"><td><div class="corr-text"><t t-out="block"/></div></td></tr>
+                            </t>
+                            <t t-set="conc_blocks" t-value="html_blocks(o.conclusion)"/>
+                            <t t-if="conc_blocks">
+                                <tr><td class="corr-sec">CONCLUSIÓN</td></tr>
+                                <tr t-foreach="conc_blocks" t-as="block"><td><div class="corr-text"><t t-out="block"/></div></td></tr>
+                            </t>
+                        </tbody>
+                    </table>
                     <div style="page-break-inside: avoid;">
                     <table class="corr-sign">
                         <tr>
