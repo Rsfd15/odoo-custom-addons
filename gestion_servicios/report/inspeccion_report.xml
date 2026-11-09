@@ -113,7 +113,14 @@
     <!-- Cuadro de texto + nota + archivos (secciones 6, 7 y 8) -->
     <template id="report_inspeccion_textblock">
         <div class="insp-q"><t t-out="question"/></div>
-        <div class="insp-box" style="white-space: pre-wrap;"><t t-out="text_value"/></div>
+        <table class="insp-frame">
+            <thead><tr><td class="insp-edge"/></tr></thead>
+            <tfoot><tr><td class="insp-edge"/></tr></tfoot>
+            <tbody>
+                <tr t-foreach="html_blocks(text_value)" t-as="block"><td><t t-out="block"/></td></tr>
+                <tr t-if="not html_blocks(text_value)"><td class="insp-empty"/></tr>
+            </tbody>
+        </table>
         <div t-if="note_value" class="insp-note">
             <strong>Nota:</strong> <span style="white-space: pre-wrap;"><t t-out="note_value"/></span>
         </div>
@@ -146,6 +153,20 @@
                         .insp-kv td { border: 1px solid #ccc; padding: 4px 6px; }
                         .insp-q { font-weight: bold; margin-bottom: 4px; }
                         .insp-box { border: 1px solid #ccc; border-radius: 4px; padding: 8px; min-height: 40px; }
+                        /* Un recuadro por párrafo: ninguno queda abierto al cambiar de hoja */
+                        .insp-boxt { width: 100%; border-collapse: collapse; }
+                        .insp-boxt td { border: 1px solid #ccc; padding: 8px; }
+                        .insp-frame { width: 100%; border-collapse: collapse; }
+                        .insp-frame thead { display: table-header-group !important; }
+                        .insp-frame tfoot { display: table-footer-group !important; }
+                        .insp-frame tr { page-break-inside: avoid; }
+                        .insp-frame td { border-left: 1px solid #ccc; border-right: 1px solid #ccc; padding: 3px 8px; vertical-align: top; }
+                        .insp-frame td.insp-edge { padding: 0; height: 0; font-size: 0; line-height: 0; }
+                        .insp-frame thead td { border-top: 1px solid #ccc; }
+                        .insp-frame tfoot td { border-bottom: 1px solid #ccc; }
+                        .insp-frame td.insp-empty { height: 40px; }
+                        .insp-frame p { margin: 0; }
+                        .insp-frame ul, .insp-frame ol { margin: 0; padding-left: 18px; }
                         .insp-note { margin-top: 6px; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
@@ -157,7 +178,7 @@
                         .sig-img { max-width: 100%; max-height: 35mm; }
                     </style>
 
-                    <div class="insp-title">Reporte de inspección de servicio</div>
+                    <div class="insp-title">REPORTE DE INSPECCIÓN DE SERVICIO</div>
                     <div>
                         Número de reporte: <strong><span t-field="o.name"/></strong>
                     </div>
@@ -168,7 +189,7 @@
                         <tr><th>Tipo de reporte</th><td><span t-field="o.report_type"/></td></tr>
                         <tr><th>Cliente</th><td><span t-field="o.customer_id"/></td></tr>
                         <tr><th>Ubicación</th><td><span t-field="o.location"/></td></tr>
-                        <tr><th>Fecha de realización</th><td><span t-field="o.inspection_date"/></td></tr>
+                        <tr><th>Fecha de realización</th><td><t t-out="o.inspection_date and o.inspection_date.strftime('%d/%m/%Y') or ''"/></td></tr>
                         <tr><th>Nombre del técnico</th><td><span t-field="o.technician_id"/></td></tr>
                         <tr><th>Representante del cliente</th><td><span t-field="o.customer_representative"/></td></tr>
                     </table>
@@ -231,7 +252,7 @@
                         </tr>
                         <tr>
                             <th>Fecha</th>
-                            <td><span t-field="o.report_date"/></td>
+                            <td><t t-out="o.report_date and o.report_date.strftime('%d/%m/%Y') or ''"/></td>
                         </tr>
                         <tr>
                             <th>Reporte recibido por</th>
@@ -252,7 +273,7 @@
 
                     <t t-if="o.notes or o.attachment_ids">
                         <div class="insp-h">Observaciones generales del servicio</div>
-                        <div t-if="o.notes" class="insp-box"><span t-field="o.notes"/></div>
+                        <table t-if="o.notes" class="insp-boxt"><tr><td style="white-space: pre-wrap;"><t t-out="o.notes"/></td></tr></table>
                         <t t-if="o.attachment_ids">
                             <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="o.attachment_ids"/>
                         </t>

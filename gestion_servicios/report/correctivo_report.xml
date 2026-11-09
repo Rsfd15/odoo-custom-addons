@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="paperformat_correctivo" model="report.paperformat">
-        <field name="name">Reporte correctivo (carta)</field>
+        <field name="name">Reporte de servicio (carta)</field>
         <field name="default" eval="False"/>
         <field name="format">Letter</field>
         <field name="orientation">Portrait</field>
@@ -15,11 +15,11 @@
     </record>
 
     <record id="action_report_correctivo" model="ir.actions.report">
-        <field name="name">Reporte correctivo</field>
+        <field name="name">Reporte de servicio</field>
         <field name="model">servicio.correctivo</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">gestion_servicios.report_correctivo_document</field>
-        <field name="print_report_name">'Reporte-Correctivo-%s' % (object.name or 'reporte')</field>
+        <field name="print_report_name">'Reporte-Servicio-%s' % (object.name or 'reporte')</field>
         <field name="paperformat_id" ref="paperformat_correctivo"/>
     </record>
 
@@ -38,10 +38,23 @@
                         .corr-kv th, .corr-kv td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; }
                         .corr-kv th { width: 35%; background: #f2f2f2; text-align: left; font-size: 13px; }
                         .corr-kv td { font-size: 15px; }
-                        .corr-band { border: 1px solid #000; border-top: none; background: #c8c8c8; height: 28px; }
-                        .corr-body { border: 1px solid #000; border-top: none; padding: 8px 14px; min-height: 60mm; }
-                        .corr-item { margin: 6px 0 2px 0; padding-left: 16px; text-indent: -12px; white-space: pre-wrap; }
-                        .corr-photos { text-align: center; margin: 6px 0 10px 0; }
+                        /* Un solo cuadro: la línea de arriba (thead) y la de abajo (tfoot) se repiten
+                           en cada hoja, y cada párrafo es un renglón que no se parte */
+                        .corr-frame { width: 100%; border-collapse: collapse; margin-top: -1px; }
+                        .corr-frame thead { display: table-header-group !important; }
+                        .corr-frame tfoot { display: table-footer-group !important; }
+                        .corr-frame tr { page-break-inside: avoid; }
+                        .corr-frame td { border-left: 1px solid #000; border-right: 1px solid #000; padding: 3px 14px; vertical-align: top; }
+                        .corr-frame td.corr-edge { padding: 0; height: 0; font-size: 0; line-height: 0; }
+                        .corr-frame thead td { border-top: 1px solid #000; }
+                        .corr-frame tfoot td { border-bottom: 1px solid #000; }
+                        .corr-frame td.corr-band { background: #c8c8c8; height: 16px; padding: 0; }
+                        .corr-frame td.corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 14px; }
+                        .corr-text { position: relative; padding-left: 16px; }
+                        .corr-text p { margin: 0; }
+                        .corr-text ul, .corr-text ol { margin: 0; padding-left: 18px; }
+                        .corr-bullet { position: absolute; left: 0; top: 0; }
+                        .corr-photos { text-align: center; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
                         .att-img { max-width: 100%; max-height: 28mm; height: auto; width: auto; }
@@ -54,7 +67,7 @@
                         .sig-img { max-width: 100%; max-height: 35mm; }
                     </style>
 
-                    <div class="corr-title">REPORTE CORRECTIVO</div>
+                    <div class="corr-title">REPORTE DE SERVICIO</div>
                     <table class="corr-kv">
                         <tr><th>NOMBRE DE LA OBRA</th><td><span t-field="o.work_name"/></td></tr>
                         <tr><th>No. DE REPORTE</th><td><span t-field="o.name"/></td></tr>
@@ -63,15 +76,39 @@
                         <tr><th>DIRECCION</th><td><span t-field="o.address"/></td></tr>
                         <tr><th>SOLICITANTE</th><td><span t-field="o.requester"/></td></tr>
                     </table>
-                    <div class="corr-band"/>
-                    <div class="corr-body">
-                        <t t-foreach="o.line_ids" t-as="line">
-                            <div class="corr-item">• <t t-out="line.description"/></div>
-                            <div t-if="line.attachment_ids" class="corr-photos">
-                                <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
-                            </div>
-                        </t>
-                    </div>
+                    <table class="corr-frame">
+                        <thead><tr><td class="corr-edge"/></tr></thead>
+                        <tfoot><tr><td class="corr-edge"/></tr></tfoot>
+                        <tbody>
+                            <tr><td class="corr-band"/></tr>
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <tr t-foreach="html_blocks(line.description)" t-as="block">
+                                    <td>
+                                        <div class="corr-text">
+                                            <span t-if="block_first" class="corr-bullet">•</span>
+                                            <t t-out="block"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr t-if="line.attachment_ids">
+                                    <td class="corr-photos">
+                                        <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="line.attachment_ids"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-set="rec_blocks" t-value="html_blocks(o.recommendation)"/>
+                            <t t-if="rec_blocks">
+                                <tr><td class="corr-sec">RECOMENDACIÓN POSTERIOR AL SERVICIO</td></tr>
+                                <tr t-foreach="rec_blocks" t-as="block"><td><div class="corr-text"><t t-out="block"/></div></td></tr>
+                            </t>
+                            <t t-set="conc_blocks" t-value="html_blocks(o.conclusion)"/>
+                            <t t-if="conc_blocks">
+                                <tr><td class="corr-sec">CONCLUSIÓN</td></tr>
+                                <tr t-foreach="conc_blocks" t-as="block"><td><div class="corr-text"><t t-out="block"/></div></td></tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div style="page-break-inside: avoid;">
                     <table class="corr-sign">
                         <tr>
                             <th>REPORTE ELABORADO POR</th>
@@ -92,6 +129,7 @@
                             </td>
                         </tr>
                     </table>
+                    </div>
                 </div>
                 </div>
             </t>

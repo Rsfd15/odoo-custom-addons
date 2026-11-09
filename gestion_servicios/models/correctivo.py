@@ -4,7 +4,7 @@ from odoo import api, fields, models
 class ServicioCorrectivo(models.Model):
     _name = "servicio.correctivo"
     _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Reporte correctivo"
+    _description = "Reporte de servicio"
     _order = "report_date desc, id desc"
 
     name = fields.Char(
@@ -25,6 +25,8 @@ class ServicioCorrectivo(models.Model):
     line_ids = fields.One2many(
         "servicio.correctivo.linea", "correctivo_id", string="Trabajos realizados", copy=True
     )
+    recommendation = fields.Html(string="Recomendación posterior al servicio", sanitize_style=True)
+    conclusion = fields.Html(string="Conclusión", sanitize_style=True)
 
     # Firmas (igual que en la inspección)
     report_made_by = fields.Char(
@@ -43,9 +45,9 @@ class ServicioCorrectivo(models.Model):
         return super().create(vals_list)
 
     def _next_number(self, report_date):
-        """Número con la fecha y un consecutivo del día, p. ej. 261026-1."""
+        """Número con la fecha (día, mes, año) y un consecutivo del día, p. ej. 261026-1."""
         day = fields.Date.to_date(report_date) or fields.Date.context_today(self)
-        prefix = day.strftime("%y%m%d") + "-"
+        prefix = day.strftime("%d%m%y") + "-"
         names = self.search([("name", "=like", prefix + "%")]).mapped("name")
         last = max(
             (int(n[len(prefix):]) for n in names if n[len(prefix):].isdigit()),
@@ -82,12 +84,12 @@ class ServicioCorrectivo(models.Model):
 
 class ServicioCorrectivoLinea(models.Model):
     _name = "servicio.correctivo.linea"
-    _description = "Trabajo realizado en el reporte correctivo"
+    _description = "Trabajo realizado en el reporte de servicio"
     _order = "sequence, id"
 
     correctivo_id = fields.Many2one("servicio.correctivo", required=True, ondelete="cascade")
     sequence = fields.Integer(default=10)
-    description = fields.Text(string="Trabajo realizado", required=True)
+    description = fields.Html(string="Trabajo realizado", required=True, sanitize_style=True)
     attachment_ids = fields.Many2many(
         "ir.attachment",
         "servicio_correctivo_linea_att_rel",
@@ -105,7 +107,7 @@ class ServicioCorrectivoLinea(models.Model):
 
 class ReportCorrectivo(models.AbstractModel):
     _name = "report.gestion_servicios.report_correctivo_document"
-    _description = "Reporte PDF correctivo"
+    _description = "Reporte PDF de servicio"
 
     @api.model
     def _get_report_values(self, docids, data=None):
