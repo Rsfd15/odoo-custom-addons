@@ -32,7 +32,7 @@
                         <field name="work_name"/>
                         <field name="report_date"/>
                         <field name="customer_id"/>
-                        <field name="supervisor_id"/>
+                        <field name="supervisor_id" readonly="1" force_save="1"/>
                         <field name="address" class="o_geo_location" placeholder="Toca aquí para detectar tu ubicación"/>
                         <field name="requester"/>
                     </group>

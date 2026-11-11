@@ -53,7 +53,7 @@
                         <field name="customer_id"/>
                         <field name="location" class="o_geo_location" placeholder="Toca aquí para detectar tu ubicación"/>
                         <field name="inspection_date"/>
-                        <field name="technician_id"/>
+                        <field name="technician_id" readonly="1" force_save="1"/>
                         <field name="customer_representative"/>
                     </group>
 

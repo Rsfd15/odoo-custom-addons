@@ -1,5 +1,9 @@
 id,name,model_id,group_id/id,operation,domain
-access_servicio_inspeccion_user,servicio.inspeccion.user,servicio.inspeccion,base.group_user,crud,
-access_servicio_inspeccion_item_user,servicio.inspeccion.item.user,servicio.inspeccion.item,base.group_user,crud,
-access_servicio_correctivo_user,servicio.correctivo.user,servicio.correctivo,base.group_user,crud,
-access_servicio_correctivo_linea_user,servicio.correctivo.linea.user,servicio.correctivo.linea,base.group_user,crud,
+access_servicio_inspeccion_user,servicio.inspeccion.user,servicio.inspeccion,base.group_user,cru,"[('technician_id', '=', user.id)]"
+access_servicio_inspeccion_admin,servicio.inspeccion.admin,servicio.inspeccion,base.group_system,crud,
+access_servicio_inspeccion_item_user,servicio.inspeccion.item.user,servicio.inspeccion.item,base.group_user,cru,"[('inspection_id.technician_id', '=', user.id)]"
+access_servicio_inspeccion_item_admin,servicio.inspeccion.item.admin,servicio.inspeccion.item,base.group_system,crud,
+access_servicio_correctivo_user,servicio.correctivo.user,servicio.correctivo,base.group_user,cru,"[('supervisor_id', '=', user.id)]"
+access_servicio_correctivo_admin,servicio.correctivo.admin,servicio.correctivo,base.group_system,crud,
+access_servicio_correctivo_linea_user,servicio.correctivo.linea.user,servicio.correctivo.linea,base.group_user,crud,"[('correctivo_id.supervisor_id', '=', user.id)]"
+access_servicio_correctivo_linea_admin,servicio.correctivo.linea.admin,servicio.correctivo.linea,base.group_system,crud,
