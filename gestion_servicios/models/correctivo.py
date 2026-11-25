@@ -1,5 +1,7 @@
 from odoo import api, fields, models
 
+from .inspeccion import _pdf_download_action
+
 
 class ServicioCorrectivo(models.Model):
     _name = "servicio.correctivo"
@@ -57,9 +59,9 @@ class ServicioCorrectivo(models.Model):
 
     def action_download_report(self):
         self.ensure_one()
-        return self.env.ref(
-            "gestion_servicios.action_report_correctivo"
-        ).report_action(self)
+        return _pdf_download_action(
+            self, "gestion_servicios.action_report_correctivo", "Reporte-Servicio-%s.pdf" % self.name
+        )
 
     def action_send_email(self):
         """Abre el correo al cliente con el PDF del reporte adjunto."""

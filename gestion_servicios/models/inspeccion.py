@@ -565,9 +565,9 @@ class ServicioInspeccion(models.Model):
 
     def action_download_report(self):
         self.ensure_one()
-        return self.env.ref(
-            "gestion_servicios.action_report_inspeccion"
-        ).report_action(self)
+        return _pdf_download_action(
+            self, "gestion_servicios.action_report_inspeccion", "Inspeccion-%s.pdf" % self.name
+        )
 
     def action_send_email(self):
         """Abre el correo al cliente con el PDF del reporte adjunto."""
@@ -746,6 +746,37 @@ def _image_uri(attachment):
         except Exception:
             pass
     return "data:%s;base64,%s" % (mimetype, base64.b64encode(raw).decode())
+
+
+def _pdf_download_action(record, report_xmlid, filename):
+    """Genera el PDF, lo guarda como adjunto del reporte y lo descarga con un enlace directo.
+
+    La app de Odoo en algunos Android corta la descarga si el PDF tarda en
+    generarse; así el PDF ya existe cuando el celular lo pide.
+    """
+    record.ensure_one()
+    pdf, _report_type = record.env["ir.actions.report"]._render_qweb_pdf(report_xmlid, record.ids)
+    attachments = record.env["ir.attachment"]
+    attachment = attachments.search([
+        ("res_model", "=", record._name),
+        ("res_id", "=", record.id),
+        ("name", "=", filename),
+    ], limit=1)
+    if attachment:
+        attachment.write({"raw": BinaryBytes(pdf)})
+    else:
+        attachment = attachments.create({
+            "name": filename,
+            "raw": BinaryBytes(pdf),
+            "mimetype": "application/pdf",
+            "res_model": record._name,
+            "res_id": record.id,
+        })
+    return {
+        "type": "ir.actions.act_url",
+        "url": "/web/content/%d?download=true" % attachment.id,
+        "target": "self",
+    }
 
 
 def _signature_uri(value):
