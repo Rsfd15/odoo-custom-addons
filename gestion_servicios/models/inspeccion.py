@@ -740,7 +740,7 @@ def _image_uri(attachment):
     mimetype = att.mimetype or "image/png"
     if mimetype != "image/svg+xml":
         try:
-            resized = image_process(raw, size=(1600, 1600), quality=85)
+            resized = image_process(raw, size=(800, 800), quality=80)
             if resized:
                 raw = resized
         except Exception:
