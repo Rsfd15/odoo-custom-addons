@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_entrega" model="mail.template">
+        <field name="name">Entrega de equipo: enviar al cliente</field>
+        <field name="model_id" ref="model_servicio_entrega"/>
+        <field name="subject">Entrega de equipo {{ object.name }}</field>
+        <field name="email_from">{{ (object.delivered_by_id.email_formatted or user.email_formatted) }}</field>
+        <field name="use_default_to" eval="False"/>
+        <field name="partner_to">{{ object.customer_id.id }}</field>
+        <field name="report_template_ids" eval="[(4, ref('gestion_servicios.action_report_entrega'))]"/>
+        <field name="lang">{{ object.customer_id.lang }}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Estimado(a) <t t-out="object.receiver_name or object.customer_id.name or ''"/>:
+        <br/><br/>
+        Le enviamos adjunta la remisión de entrega de equipo
+        <strong t-out="object.name or ''"/>
+        <t t-if="object.order_number">(pedido <t t-out="object.order_number"/>)</t>
+        del <t t-out="object.delivery_date and object.delivery_date.strftime('%d/%m/%Y') or ''"/>.
+        <br/><br/>
+        Quedamos a sus órdenes para cualquier duda.
+        <br/><br/>
+        Atentamente,<br/>
+        <t t-out="object.delivered_by_id.name or ''"/>
+    </p>
+</div>
+        </field>
+    </record>
+</odoo>
