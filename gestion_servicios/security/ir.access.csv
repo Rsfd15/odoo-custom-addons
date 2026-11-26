@@ -13,3 +13,7 @@ access_servicio_cotizacion_diagnostico_user,servicio.cotizacion.diagnostico.user
 access_servicio_cotizacion_diagnostico_admin,servicio.cotizacion.diagnostico.admin,servicio.cotizacion.diagnostico,base.group_system,crud,
 access_servicio_cotizacion_material_user,servicio.cotizacion.material.user,servicio.cotizacion.material,base.group_user,crud,"[('cotizacion_id.technician_id', '=', user.id)]"
 access_servicio_cotizacion_material_admin,servicio.cotizacion.material.admin,servicio.cotizacion.material,base.group_system,crud,
+access_servicio_entrega_user,servicio.entrega.user,servicio.entrega,base.group_user,cru,"[('delivered_by_id', '=', user.id)]"
+access_servicio_entrega_admin,servicio.entrega.admin,servicio.entrega,base.group_system,crud,
+access_servicio_entrega_linea_user,servicio.entrega.linea.user,servicio.entrega.linea,base.group_user,crud,"[('entrega_id.delivered_by_id', '=', user.id)]"
+access_servicio_entrega_linea_admin,servicio.entrega.linea.admin,servicio.entrega.linea,base.group_system,crud,

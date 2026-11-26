@@ -881,6 +881,7 @@ _COMPRESS_MODELS = (
     "servicio.correctivo.linea",
     "servicio.cotizacion",
     "servicio.cotizacion.diagnostico",
+    "servicio.entrega.linea",
 )
 # (lado máximo en px, calidad JPEG): se prueban en orden hasta llegar al objetivo
 _COMPRESS_STEPS = (

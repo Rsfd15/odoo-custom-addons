@@ -11,4 +11,10 @@
         <field name="prefix">COT-</field>
         <field name="padding">5</field>
     </record>
+    <record id="seq_servicio_entrega" model="ir.sequence">
+        <field name="name">Entrega de equipo</field>
+        <field name="code">servicio.entrega</field>
+        <field name="prefix">REM-</field>
+        <field name="padding">5</field>
+    </record>
 </odoo>
