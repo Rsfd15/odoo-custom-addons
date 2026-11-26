@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_cotizacion" model="ir.actions.report">
+        <field name="name">Solicitud de cotización</field>
+        <field name="model">servicio.cotizacion</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_servicios.report_cotizacion_document</field>
+        <field name="print_report_name">'Solicitud-Cotizacion-%s' % (object.name or 'solicitud')</field>
+        <field name="paperformat_id" ref="paperformat_correctivo"/>
+    </record>
+
+    <template id="report_cotizacion_document">
+        <t t-call="web.html_container">
+            <t t-call="gestion_servicios.report_company_header"/>
+
+            <t t-foreach="docs" t-as="o">
+                <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id">
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                <div class="page corr-report">
+                    <style>
+                        .corr-report { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000; }
+                        .corr-title { font-size: 26px; font-weight: bold; text-align: center; margin: 0 0 4px 0; }
+                        .corr-kv { width: 100%; border-collapse: collapse; }
+                        .corr-kv th, .corr-kv td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; }
+                        .corr-kv th { width: 35%; background: #f2f2f2; text-align: left; font-size: 13px; }
+                        .corr-kv td { font-size: 15px; }
+                        .corr-kv tr { page-break-inside: avoid; }
+                        /* Un solo cuadro: la línea de arriba (thead) y la de abajo (tfoot) se repiten
+                           en cada hoja, y cada renglón no se parte */
+                        .corr-frame { width: 100%; border-collapse: collapse; margin-top: -1px; }
+                        .corr-frame thead { display: table-header-group !important; }
+                        .corr-frame tfoot { display: table-footer-group !important; }
+                        .corr-frame tr { page-break-inside: avoid; }
+                        .corr-frame td { border-left: 1px solid #000; border-right: 1px solid #000; padding: 3px 14px; vertical-align: top; }
+                        .corr-frame td.corr-edge { padding: 0; height: 0; font-size: 0; line-height: 0; }
+                        .corr-frame thead td { border-top: 1px solid #000; }
+                        .corr-frame tfoot td { border-bottom: 1px solid #000; }
+                        .corr-frame td.corr-band { background: #c8c8c8; height: 16px; padding: 0; }
+                        .corr-frame td.corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 14px; }
+                        .corr-frame td.corr-sub { font-weight: bold; padding-top: 6px; }
+                        .corr-pre { white-space: pre-wrap; }
+                        .corr-note { font-size: 11px; color: #444; white-space: pre-wrap; }
+                        .corr-photos { text-align: center; }
+                        .cot-mat { width: 100%; border-collapse: collapse; margin: 4px 0; }
+                        .cot-mat th, .cot-mat td { border: 1px solid #000 !important; padding: 3px 6px; font-size: 11px; }
+                        .cot-mat th { background: #f2f2f2; text-align: left; }
+                        .cot-mat td.cot-qty { text-align: right; width: 12%; }
+                        .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
+                        .att-box a { text-decoration: none; }
+                        .att-img { max-width: 100%; max-height: 28mm; height: auto; width: auto; }
+                        .att-box img { display: inline-block; }
+                        .att-file { font-size: 10px; color: #555; margin: 4px 0; }
+                    </style>
+
+                    <div class="corr-title">SOLICITUD DE COTIZACIÓN</div>
+
+                    <!-- 1. Datos de la solicitud -->
+                    <table class="corr-kv">
+                        <tr><th>No. DE SOLICITUD</th><td><span t-field="o.name"/></td></tr>
+                        <tr><th>FECHA</th><td><t t-out="o.request_date and o.request_date.strftime('%d/%m/%Y') or ''"/></td></tr>
+                        <tr><th>CLIENTE</th><td><span t-field="o.customer_id"/></td></tr>
+                        <tr><th>NOMBRE DEL CLIENTE</th><td><span t-field="o.customer_contact"/></td></tr>
+                        <tr><th>TELÉFONO DEL CLIENTE</th><td><span t-field="o.customer_phone"/></td></tr>
+                        <tr><th>ZONA</th><td><span t-field="o.zone"/></td></tr>
+                        <tr><th>UBICACIÓN</th><td><span t-field="o.location"/></td></tr>
+                        <tr><th>NOMBRE DEL TÉCNICO</th><td><span t-field="o.technician_id"/></td></tr>
+                        <tr><th>TIEMPO REQUERIDO</th><td><span t-field="o.required_time"/></td></tr>
+                        <tr><th>NÚMERO DE PERSONAS</th><td><t t-out="o.people_count or ''"/></td></tr>
+                        <tr>
+                            <th>REFERENCIAS</th>
+                            <td>
+                                <span t-field="o.reference_type"/>
+                                <div t-if="o.reference_note" class="corr-note">Nota: <t t-out="o.reference_note"/></div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- 2. Detalle de la cotización -->
+                    <table class="corr-frame">
+                        <thead><tr><td class="corr-edge"/></tr></thead>
+                        <tfoot><tr><td class="corr-edge"/></tr></tfoot>
+                        <tbody>
+                            <tr><td class="corr-band"/></tr>
+                            <tr t-if="o.reference_attachment_ids">
+                                <td class="corr-photos">
+                                    <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="o.reference_attachment_ids"/>
+                                </td>
+                            </tr>
+
+                            <t t-if="o.supply_option">
+                                <tr><td class="corr-sec">OPCIÓN SELECCIONADA</td></tr>
+                                <tr><td><span t-field="o.supply_option"/></td></tr>
+                            </t>
+
+                            <t t-foreach="o.diagnostic_ids" t-as="diag">
+                                <tr><td class="corr-sec">DIAGNÓSTICO <t t-out="diag_index + 1"/></td></tr>
+                                <tr><td class="corr-sub">Descripción de la falla</td></tr>
+                                <tr><td class="corr-pre"><t t-out="diag.fault_description"/></td></tr>
+                                <tr t-if="diag.fault_note"><td class="corr-note">Nota: <t t-out="diag.fault_note"/></td></tr>
+                                <t t-if="diag.corrective_action or diag.corrective_note or diag.attachment_ids">
+                                    <tr><td class="corr-sub">Acción correctiva</td></tr>
+                                    <tr t-if="diag.corrective_action"><td class="corr-pre"><t t-out="diag.corrective_action"/></td></tr>
+                                    <tr t-if="diag.corrective_note"><td class="corr-note">Nota: <t t-out="diag.corrective_note"/></td></tr>
+                                    <tr t-if="diag.attachment_ids">
+                                        <td class="corr-photos">
+                                            <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="diag.attachment_ids"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+
+                            <t t-if="o.material_ids">
+                                <tr><td class="corr-sec">MATERIAL A COTIZAR</td></tr>
+                                <tr>
+                                    <td>
+                                        <table class="cot-mat">
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>Marca</th>
+                                                <th>Modelo</th>
+                                                <th>Número de serie</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                            <tr t-foreach="o.material_ids" t-as="mat">
+                                                <td><t t-out="mat.description"/></td>
+                                                <td><t t-out="mat.brand or ''"/></td>
+                                                <td><t t-out="mat.product_model or ''"/></td>
+                                                <td><t t-out="mat.serial_number or ''"/></td>
+                                                <td class="cot-qty"><t t-out="'%g' % mat.quantity"/></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr t-if="o.material_description_note"><td class="corr-note">Nota de descripción: <t t-out="o.material_description_note"/></td></tr>
+                                <tr t-if="o.material_brand_note"><td class="corr-note">Nota de marca: <t t-out="o.material_brand_note"/></td></tr>
+                                <tr t-if="o.material_model_note"><td class="corr-note">Nota de modelo: <t t-out="o.material_model_note"/></td></tr>
+                                <tr t-if="o.material_serial_note"><td class="corr-note">Nota de número de serie: <t t-out="o.material_serial_note"/></td></tr>
+                                <tr t-if="o.material_quantity_note"><td class="corr-note">Nota de cantidad: <t t-out="o.material_quantity_note"/></td></tr>
+                            </t>
+
+                            <t t-if="o.material_images_note or o.material_attachment_ids">
+                                <tr><td class="corr-sec">IMÁGENES DEL MATERIAL</td></tr>
+                                <tr t-if="o.material_images_note"><td class="corr-note">Nota: <t t-out="o.material_images_note"/></td></tr>
+                                <tr t-if="o.material_attachment_ids">
+                                    <td class="corr-photos">
+                                        <t t-call="gestion_servicios.report_inspeccion_attachments" attachments="o.material_attachment_ids"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </t>
+
+            <t t-call="gestion_servicios.report_company_footer"/>
+        </t>
+    </template>
+</odoo>

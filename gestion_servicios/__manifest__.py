@@ -1,6 +1,6 @@
 {
     "name": "Gestión de Inspecciones y Servicios",
-    "version": "20.0.1.5.0",
+    "version": "20.0.1.6.0",
     "summary": "Reportes de inspección y mantenimiento de equipos",
     "description": """
         Gestión de reportes de inspección de sistemas contra incendio,
@@ -19,6 +19,9 @@
         "views/correctivo_views.xml",
         "report/correctivo_report.xml",
         "data/correctivo_mail_template.xml",
+        "views/cotizacion_views.xml",
+        "report/cotizacion_report.xml",
+        "data/cotizacion_mail_template.xml",
     ],
     "assets": {
         "web.assets_backend": [

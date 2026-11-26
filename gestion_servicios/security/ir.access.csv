@@ -7,3 +7,9 @@ access_servicio_correctivo_user,servicio.correctivo.user,servicio.correctivo,bas
 access_servicio_correctivo_admin,servicio.correctivo.admin,servicio.correctivo,base.group_system,crud,
 access_servicio_correctivo_linea_user,servicio.correctivo.linea.user,servicio.correctivo.linea,base.group_user,crud,"[('correctivo_id.supervisor_id', '=', user.id)]"
 access_servicio_correctivo_linea_admin,servicio.correctivo.linea.admin,servicio.correctivo.linea,base.group_system,crud,
+access_servicio_cotizacion_user,servicio.cotizacion.user,servicio.cotizacion,base.group_user,cru,"[('technician_id', '=', user.id)]"
+access_servicio_cotizacion_admin,servicio.cotizacion.admin,servicio.cotizacion,base.group_system,crud,
+access_servicio_cotizacion_diagnostico_user,servicio.cotizacion.diagnostico.user,servicio.cotizacion.diagnostico,base.group_user,crud,"[('cotizacion_id.technician_id', '=', user.id)]"
+access_servicio_cotizacion_diagnostico_admin,servicio.cotizacion.diagnostico.admin,servicio.cotizacion.diagnostico,base.group_system,crud,
+access_servicio_cotizacion_material_user,servicio.cotizacion.material.user,servicio.cotizacion.material,base.group_user,crud,"[('cotizacion_id.technician_id', '=', user.id)]"
+access_servicio_cotizacion_material_admin,servicio.cotizacion.material.admin,servicio.cotizacion.material,base.group_system,crud,
