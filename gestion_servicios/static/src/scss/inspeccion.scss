@@ -26,10 +26,11 @@
     }
 }
 
-// Menú de arriba: "Inspecciones" y "Reporte Correctivo" como botones naranjas
+// Menú de arriba: INSPECCIONES, REPORTE DE SERVICIO y SOLICITUD DE COTIZACIÓN como botones naranjas
 .o_main_navbar {
     [data-menu-xmlid="gestion_servicios.menu_servicio_inspeccion"],
-    [data-menu-xmlid="gestion_servicios.menu_servicio_correctivo"] {
+    [data-menu-xmlid="gestion_servicios.menu_servicio_correctivo"],
+    [data-menu-xmlid="gestion_servicios.menu_servicio_cotizacion"] {
         background: #e36c0a !important;
         color: #fff !important;
         font-weight: 600;
