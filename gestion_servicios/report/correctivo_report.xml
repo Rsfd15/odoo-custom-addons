@@ -40,7 +40,9 @@
                         .corr-kv td { font-size: 15px; }
                         /* Un solo cuadro: la línea de arriba (thead) y la de abajo (tfoot) se repiten
                            en cada hoja, y cada párrafo es un renglón que no se parte */
-                        .corr-frame { width: 100%; border-collapse: collapse; margin-top: -1px; }
+                        .corr-frame { width: 100%; border-collapse: collapse; margin-top: -1px; table-layout: fixed; }
+                        /* Las palabras muy largas se cortan para que el cuadro nunca se salga de la hoja */
+                        .corr-frame td, .corr-kv td { word-wrap: break-word; word-break: break-all; }
                         .corr-frame thead { display: table-header-group !important; }
                         .corr-frame tfoot { display: table-footer-group !important; }
                         .corr-frame tr { page-break-inside: avoid; }

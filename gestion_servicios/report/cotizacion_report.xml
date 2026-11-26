@@ -28,7 +28,9 @@
                         .corr-kv tr { page-break-inside: avoid; }
                         /* Un solo cuadro: la línea de arriba (thead) y la de abajo (tfoot) se repiten
                            en cada hoja, y cada renglón no se parte */
-                        .corr-frame { width: 100%; border-collapse: collapse; margin-top: -1px; }
+                        .corr-frame { width: 100%; border-collapse: collapse; margin-top: -1px; table-layout: fixed; }
+                        /* Las palabras muy largas se cortan para que el cuadro nunca se salga de la hoja */
+                        .corr-frame td, .corr-kv td { word-wrap: break-word; word-break: break-all; }
                         .corr-frame thead { display: table-header-group !important; }
                         .corr-frame tfoot { display: table-footer-group !important; }
                         .corr-frame tr { page-break-inside: avoid; }
@@ -42,10 +44,11 @@
                         .corr-pre { white-space: pre-wrap; }
                         .corr-note { font-size: 11px; color: #444; white-space: pre-wrap; }
                         .corr-photos { text-align: center; }
-                        .cot-mat { width: 100%; border-collapse: collapse; margin: 4px 0; }
+                        .cot-mat { width: 100%; border-collapse: collapse; margin: 4px 0; table-layout: fixed; }
+                        .cot-mat th, .cot-mat td { word-wrap: break-word; word-break: break-all; }
                         .cot-mat th, .cot-mat td { border: 1px solid #000 !important; padding: 3px 6px; font-size: 11px; }
                         .cot-mat th { background: #f2f2f2; text-align: left; }
-                        .cot-mat td.cot-qty { text-align: right; width: 12%; }
+                        .cot-mat th.cot-qty, .cot-mat td.cot-qty { text-align: right; width: 12%; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
                         .att-img { max-width: 100%; max-height: 28mm; height: auto; width: auto; }
@@ -120,7 +123,7 @@
                                                 <th>Marca</th>
                                                 <th>Modelo</th>
                                                 <th>Número de serie</th>
-                                                <th>Cantidad</th>
+                                                <th class="cot-qty">Cantidad</th>
                                             </tr>
                                             <tr t-foreach="o.material_ids" t-as="mat">
                                                 <td><t t-out="mat.description"/></td>
