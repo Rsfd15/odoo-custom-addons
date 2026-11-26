@@ -23,7 +23,7 @@
                         .corr-title { font-size: 26px; font-weight: bold; text-align: center; margin: 0 0 4px 0; }
                         .corr-kv { width: 100%; border-collapse: collapse; }
                         .corr-kv th, .corr-kv td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; }
-                        .corr-kv th { width: 35%; background: #f2f2f2; text-align: left; font-size: 13px; }
+                        .corr-kv th { width: 35%; background: #fbe5d6; text-align: left; font-size: 13px; }
                         .corr-kv td { font-size: 15px; }
                         .corr-kv tr { page-break-inside: avoid; }
                         /* Un solo cuadro: la línea de arriba (thead) y la de abajo (tfoot) se repiten
@@ -38,16 +38,16 @@
                         .corr-frame td.corr-edge { padding: 0; height: 0; font-size: 0; line-height: 0; }
                         .corr-frame thead td { border-top: 1px solid #000; }
                         .corr-frame tfoot td { border-bottom: 1px solid #000; }
-                        .corr-frame td.corr-band { background: #c8c8c8; height: 16px; padding: 0; }
-                        .corr-frame td.corr-sec { background: #f2f2f2; font-weight: bold; font-size: 13px; padding: 4px 14px; }
-                        .corr-frame td.corr-sub { font-weight: bold; padding-top: 6px; }
+                        .corr-frame td.corr-band { background: #e36c0a; height: 16px; padding: 0; }
+                        .corr-frame td.corr-sec { background: #e36c0a; color: #fff; font-weight: bold; font-size: 13px; padding: 4px 14px; }
+                        .corr-frame td.corr-sub { color: #e36c0a; font-weight: bold; padding-top: 6px; }
                         .corr-pre { white-space: pre-wrap; }
                         .corr-note { font-size: 11px; color: #444; white-space: pre-wrap; }
                         .corr-photos { text-align: center; }
                         .cot-mat { width: 100%; border-collapse: collapse; margin: 4px 0; table-layout: fixed; }
                         .cot-mat th, .cot-mat td { word-wrap: break-word; word-break: break-all; }
                         .cot-mat th, .cot-mat td { border: 1px solid #000 !important; padding: 3px 6px; font-size: 11px; }
-                        .cot-mat th { background: #f2f2f2; text-align: left; }
+                        .cot-mat th { background: #fbe5d6; text-align: left; }
                         .cot-mat th.cot-qty, .cot-mat td.cot-qty { text-align: right; width: 12%; }
                         .att-box { display: inline-block; width: 15%; margin: 0.8%; vertical-align: top; text-align: center; }
                         .att-box a { text-decoration: none; }
